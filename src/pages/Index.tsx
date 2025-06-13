@@ -1,36 +1,34 @@
 
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { ClinicSidebar } from "@/components/clinic-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
-import { WelcomeCard } from "@/components/welcome-card";
-import { LatestResults } from "@/components/latest-results";
-import { TimeSpentChart } from "@/components/time-spent-chart";
-import { LanguageProgress } from "@/components/language-progress";
-import { Reminders } from "@/components/reminders";
-import { CourseCards } from "@/components/course-cards";
-import { UserProfile } from "@/components/user-profile";
+import { ClinicOverview } from "@/components/clinic-overview";
+import { TodayAppointments } from "@/components/today-appointments";
+import { PatientStats } from "@/components/patient-stats";
+import { RevenueChart } from "@/components/revenue-chart";
+import { RecentActivities } from "@/components/recent-activities";
+import { QuickActions } from "@/components/quick-actions";
 
 const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
-        <AppSidebar />
+        <ClinicSidebar />
         <main className="flex-1 flex flex-col">
           <DashboardHeader />
           <div className="flex-1 p-6 space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <WelcomeCard />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <LatestResults />
-                  <TimeSpentChart />
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              <div className="lg:col-span-3 space-y-6">
+                <ClinicOverview />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <TodayAppointments />
+                  <PatientStats />
                 </div>
-                <CourseCards />
+                <RevenueChart />
               </div>
               <div className="space-y-6">
-                <UserProfile />
-                <LanguageProgress />
-                <Reminders />
+                <QuickActions />
+                <RecentActivities />
               </div>
             </div>
           </div>
