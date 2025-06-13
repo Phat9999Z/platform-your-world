@@ -12,7 +12,7 @@ import { QuickActions } from "@/components/quick-actions";
 const Index = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-emerald-50/50 via-blue-50/30 to-white">
         <ClinicSidebar />
         <main className="flex-1 flex flex-col">
           <DashboardHeader />

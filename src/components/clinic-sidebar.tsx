@@ -9,7 +9,8 @@ import {
   Settings,
   Stethoscope,
   CreditCard,
-  UserCheck
+  UserCheck,
+  Heart
 } from "lucide-react";
 
 import {
@@ -81,22 +82,24 @@ const navigationItems = [
 
 export function ClinicSidebar() {
   return (
-    <Sidebar className="border-r">
-      <SidebarHeader className="p-6 border-b">
+    <Sidebar className="border-r bg-gradient-to-b from-emerald-50 to-blue-50">
+      <SidebarHeader className="p-6 border-b border-emerald-100">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-            <Stethoscope className="w-6 h-6 text-white" />
+          <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Heart className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-800">ClinicCare</h1>
-            <p className="text-sm text-gray-500">ระบบบริหารคลินิก</p>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+              MediCare Pro
+            </h1>
+            <p className="text-sm text-emerald-600 font-medium">ระบบบริหารคลินิกครบวงจร</p>
           </div>
         </div>
       </SidebarHeader>
       
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-500 font-medium px-3 py-2">
+          <SidebarGroupLabel className="text-emerald-700 font-semibold px-3 py-2 text-xs uppercase tracking-wide">
             เมนูหลัก
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -104,11 +107,11 @@ export function ClinicSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                      <item.icon className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-700">{item.title}</span>
+                    <a href={item.url} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/80 hover:shadow-sm transition-all duration-200 group">
+                      <item.icon className="w-5 h-5 text-emerald-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-gray-700 font-medium group-hover:text-gray-900">{item.title}</span>
                       {item.badge && (
-                        <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                        <span className="ml-auto bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-semibold shadow-sm">
                           {item.badge}
                         </span>
                       )}
@@ -121,14 +124,14 @@ export function ClinicSidebar() {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter className="p-4 border-t">
-        <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-bold">Dr</span>
+      <SidebarFooter className="p-4 border-t border-emerald-100">
+        <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl border border-emerald-100 shadow-sm">
+          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
+            <span className="text-white text-sm font-bold">ดร</span>
           </div>
           <div className="text-sm">
-            <div className="font-medium text-gray-800">คุณหมอ สมชาย</div>
-            <div className="text-gray-500">ผู้อำนวยการ</div>
+            <div className="font-semibold text-gray-800">ดร. สมชาย เจริญสุข</div>
+            <div className="text-emerald-600 font-medium">ผู้อำนวยการคลินิก</div>
           </div>
         </div>
       </SidebarFooter>
