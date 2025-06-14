@@ -62,14 +62,6 @@ export const useSidebarLogic = () => {
     return false;
   };
 
-  console.log('Sidebar Navigation Debug:', {
-    currentPath: location.pathname,
-    currentSystem,
-    isStaffMode,
-    menuItemsCount: currentMenuItems?.length || 0,
-    systemTitle
-  });
-
   return {
     currentSystem,
     isStaffMode,
