@@ -51,6 +51,23 @@ const Finance = () => {
   // Determine which section to show based on route
   const renderContent = () => {
     switch (location.pathname) {
+      // --- Finance main routes as in menuItems.ts ---
+      case '/finance':
+        return <FinancialStatements />;
+      case '/finance/income-expense':
+        return <ExpenseManagementSection />;
+      case '/finance/daily-weekly':
+        return <SalesRevenueSection />; // Could be custom, here use SalesRevenueSection for daily/weekly revenue
+      case '/finance/net-profit':
+        // Net profit view (use DashboardNetProfit or summary section, but fallback to FinancialKPIDashboard if needed)
+        return <FinancialKPIDashboard />;
+      case '/finance/burn-runway':
+        // Use KPI Dashboard for burn/runway graph, or another dedicated section
+        return <FinancialKPIDashboard />;
+      case '/finance/owner-withdrawal':
+        // Owner withdrawal report (not yet implemented, fallback to FinancialStatements)
+        return <FinancialStatements />;
+      // --- Legacy routes in code for completeness ---
       case '/finance/sales':
         return <SalesRevenueSection />;
       case '/finance/inventory':
@@ -66,6 +83,7 @@ const Finance = () => {
       case '/finance/kpi':
         return <FinancialKPIDashboard />;
       default:
+        // สำหรับ route อื่นๆ ให้แสดง FinancialStatements
         return <FinancialStatements />;
     }
   };
@@ -164,3 +182,4 @@ const Finance = () => {
 };
 
 export default Finance;
+
