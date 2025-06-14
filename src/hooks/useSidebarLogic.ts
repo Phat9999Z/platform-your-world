@@ -50,13 +50,19 @@ export const useSidebarLogic = () => {
     // Handle exact matches first
     if (currentPath === path) return true;
     
-    // Handle root path specially
-    if (path === '/' || path === '/dashboard') {
-      return currentPath === '/' || currentPath === '/dashboard';
-    }
+    // Handle special cases for base routes
+    if (path === '/dashboard' && (currentPath === '/dashboard' || currentPath === '/')) return true;
+    if (path === '/staff/patients' && currentPath === '/staff/patients') return true;
+    if (path === '/staff/appointments' && currentPath === '/staff/appointments') return true;
+    if (path === '/staff/treatments' && currentPath === '/staff/treatments') return true;
+    if (path === '/staff/invoicing' && currentPath === '/staff/invoicing') return true;
+    if (path === '/staff/followup' && currentPath === '/staff/followup') return true;
+    if (path === '/staff/chat' && currentPath === '/staff/chat') return true;
     
-    // For sub-paths, check if current path starts with the menu path
-    if (currentPath.startsWith(path + '/')) return true;
+    // For sub-routes, only match if current path starts with menu path followed by '/'
+    if (path !== '/' && currentPath.startsWith(path) && currentPath.charAt(path.length) === '/') {
+      return true;
+    }
     
     return false;
   };

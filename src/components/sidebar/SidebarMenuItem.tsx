@@ -27,6 +27,7 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
     <ShadcnSidebarMenuItem>
       <SidebarMenuButton 
         onClick={handleClick}
+        isActive={isActive}
         className={`w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-300 group cursor-pointer ${
           isActive 
             ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl' 
