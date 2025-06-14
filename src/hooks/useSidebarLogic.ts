@@ -45,9 +45,18 @@ export const useSidebarLogic = () => {
     : (systemTitles[currentSystem] || systemTitles['dashboard']);
 
   const isActiveLink = (path: string) => {
-    // Special handling for root path
-    if (path === '/' && (location.pathname === '/' || location.pathname === '/dashboard')) return true;
-    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    const currentPath = location.pathname;
+    
+    // Handle root path specially
+    if (path === '/' && (currentPath === '/' || currentPath === '/dashboard')) return true;
+    
+    // For non-root paths, check exact match or if current path starts with the menu path
+    // But avoid false positives by ensuring the next character is '/' or end of string
+    if (path !== '/') {
+      if (currentPath === path) return true;
+      if (currentPath.startsWith(path + '/')) return true;
+    }
+    
     return false;
   };
 
