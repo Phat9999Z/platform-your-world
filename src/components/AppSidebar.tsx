@@ -49,73 +49,63 @@ import {
   Plus
 } from 'lucide-react';
 
-// Define menu items for each system
+// Define menu items for each system - Fixed routing paths
 const systemMenus = {
   dashboard: [
-    { icon: BarChart3, label: 'ภาพรวมธุรกิจ', path: '/dashboard' },
-    { icon: DollarSign, label: 'รายได้รวม', path: '/dashboard/revenue' },
-    { icon: TrendingUp, label: 'ยอดขายตามช่วงเวลา', path: '/dashboard/sales-timeline' },
-    { icon: Calculator, label: 'กำไรสุทธิ (Net Profit)', path: '/dashboard/net-profit' },
-    { icon: Activity, label: 'Burn Rate', path: '/dashboard/burn-rate' },
-    { icon: Clock, label: 'Runway', path: '/dashboard/runway' },
-    { icon: LineChart, label: 'อัตราการเติบโต', path: '/dashboard/growth-rate' },
-    { icon: Target, label: 'KPI องค์กร', path: '/dashboard/kpi' },
-    { icon: AlertTriangle, label: 'Alert ฉุกเฉิน!', path: '/dashboard/alerts' }
+    { icon: BarChart3, label: 'ภาพรวมธุรกิจ', path: '/' },
+    { icon: DollarSign, label: 'รายได้รวม', path: '/dashboard' },
+    { icon: TrendingUp, label: 'ยอดขายตามช่วงเวลา', path: '/dashboard' },
+    { icon: Calculator, label: 'กำไรสุทธิ (Net Profit)', path: '/dashboard' },
+    { icon: Activity, label: 'Burn Rate', path: '/dashboard' },
+    { icon: Clock, label: 'Runway', path: '/dashboard' },
+    { icon: LineChart, label: 'อัตราการเติบโต', path: '/dashboard' },
+    { icon: Target, label: 'KPI องค์กร', path: '/dashboard' }
   ],
   appointment: [
     { icon: BarChart3, label: 'ประสิทธิภาพการจอง', path: '/appointments' },
-    { icon: Users, label: 'Utilization per Doctor', path: '/appointments/utilization' },
-    { icon: UserX, label: 'No-Show Rate per Branch', path: '/appointments/no-show' },
-    { icon: DollarSign, label: 'Revenue per Slot', path: '/appointments/revenue-slot' },
-    { icon: Star, label: 'หมอสร้างรายได้สูงสุด', path: '/appointments/top-doctors' },
-    { icon: Activity, label: 'คิวแน่น / คิวร้าง', path: '/appointments/queue-analysis' },
-    { icon: AlertCircle, label: 'บริการที่คนจองแต่ไม่รักษา', path: '/appointments/no-treatment' }
+    { icon: Users, label: 'การใช้งานต่อหมอ', path: '/appointments' },
+    { icon: UserX, label: 'อัตราไม่มาตามนัด', path: '/appointments' },
+    { icon: DollarSign, label: 'รายได้ต่อช่วงเวลา', path: '/appointments' },
+    { icon: Star, label: 'หมอสร้างรายได้สูงสุด', path: '/appointments' },
+    { icon: Activity, label: 'วิเคราะห์คิว', path: '/appointments' }
   ],
   hr: [
     { icon: Users, label: 'พนักงาน & องค์กร', path: '/hr-dashboard' },
-    { icon: UserCheck, label: 'จำนวนพนักงานทั้งหมด', path: '/hr-dashboard/total-staff' },
-    { icon: TrendingUp, label: 'Turnover Rate', path: '/hr-dashboard/turnover' },
-    { icon: DollarSign, label: 'Payroll Load', path: '/hr-dashboard/payroll' },
-    { icon: Calculator, label: 'Revenue per Staff', path: '/hr-dashboard/revenue-staff' },
-    { icon: Star, label: 'คนที่ Performance สูงสุด', path: '/hr-dashboard/top-performers' },
-    { icon: AlertTriangle, label: 'คนที่ Performance ติดลบ', path: '/hr-dashboard/poor-performers' },
-    { icon: Timer, label: 'พนักงานไม่ขยับอะไรเลย', path: '/hr-dashboard/inactive-staff' }
+    { icon: UserCheck, label: 'จำนวนพนักงานทั้งหมด', path: '/hr-dashboard' },
+    { icon: TrendingUp, label: 'Turnover Rate', path: '/hr-dashboard' },
+    { icon: DollarSign, label: 'Payroll Load', path: '/hr-dashboard' },
+    { icon: Calculator, label: 'Revenue per Staff', path: '/hr-dashboard' },
+    { icon: Star, label: 'Performance สูงสุด', path: '/hr-dashboard' }
   ],
   branch: [
     { icon: Building, label: 'สาขาในระบบ', path: '/branch' },
-    { icon: DollarSign, label: 'รายได้ต่อสาขา', path: '/branch/revenue' },
-    { icon: Calculator, label: 'กำไรสุทธิสาขา', path: '/branch/net-profit' },
-    { icon: Receipt, label: 'ต้นทุน / รายจ่ายสาขา', path: '/branch/expenses' },
-    { icon: Activity, label: 'Productivity สาขา', path: '/branch/productivity' },
-    { icon: BarChart3, label: 'คิวเฉลี่ยต่อวัน', path: '/branch/queue-avg' },
-    { icon: Target, label: 'เป้าหมายสาขา', path: '/branch/targets' },
-    { icon: AlertTriangle, label: 'คำแนะนำ: ปิด / เปิดสาขาใหม่', path: '/branch/recommendations' }
+    { icon: DollarSign, label: 'รายได้ต่อสาขา', path: '/branch' },
+    { icon: Calculator, label: 'กำไรสุทธิสาขา', path: '/branch' },
+    { icon: Receipt, label: 'ต้นทุน / รายจ่ายสาขา', path: '/branch' },
+    { icon: Activity, label: 'Productivity สาขา', path: '/branch' },
+    { icon: BarChart3, label: 'คิวเฉลี่ยต่อวัน', path: '/branch' }
   ],
   feedback: [
     { icon: MessageSquare, label: 'ความเห็นลูกค้า', path: '/feedback' },
-    { icon: PieChart, label: 'Distribution Feedback', path: '/feedback/distribution' },
-    { icon: MessageCircle, label: 'คำค้นยอดนิยม', path: '/feedback/keywords' },
-    { icon: Star, label: 'หมอที่ได้คำชม / คำด่า', path: '/feedback/doctor-ratings' },
-    { icon: Building, label: 'สาขาที่ได้ Feedback ดีที่สุด', path: '/feedback/best-branches' },
-    { icon: AlertTriangle, label: 'Alert Feedback เชิงลบรุนแรง', path: '/feedback/negative-alerts' }
+    { icon: PieChart, label: 'การกระจาย Feedback', path: '/feedback' },
+    { icon: MessageCircle, label: 'คำค้นยอดนิยม', path: '/feedback' },
+    { icon: Star, label: 'คะแนนหมอ', path: '/feedback' },
+    { icon: Building, label: 'สาขาที่ดีที่สุด', path: '/feedback' }
   ],
   chat: [
     { icon: MessageSquare, label: 'ประสิทธิภาพการสื่อสาร', path: '/alerts' },
-    { icon: LineChart, label: 'ปริมาณแชท (LINE / FB)', path: '/alerts/volume' },
-    { icon: Timer, label: 'Response Time', path: '/alerts/response-time' },
-    { icon: MessageCircle, label: 'คำถามนอกสคริปต์', path: '/alerts/off-script' },
-    { icon: Zap, label: 'Bot Fail Rate', path: '/alerts/bot-fail' },
-    { icon: AlertTriangle, label: 'คนที่ตอบช้าสุด', path: '/alerts/slow-responders' }
+    { icon: LineChart, label: 'ปริมาณแชท (LINE / FB)', path: '/alerts' },
+    { icon: Timer, label: 'Response Time', path: '/alerts' },
+    { icon: MessageCircle, label: 'คำถามนอกสคริปต์', path: '/alerts' },
+    { icon: Zap, label: 'Bot Fail Rate', path: '/alerts' }
   ],
   finance: [
     { icon: DollarSign, label: 'ภาพรวมการเงิน', path: '/finance' },
-    { icon: BarChart3, label: 'รายรับ / รายจ่าย', path: '/finance/income-expense' },
-    { icon: LineChart, label: 'รายได้ต่อวัน / สัปดาห์', path: '/finance/daily-weekly' },
-    { icon: Calculator, label: 'กำไรสุทธิ', path: '/finance/net-profit' },
-    { icon: Activity, label: 'Burn Rate & Runway', path: '/finance/burn-runway' },
-    { icon: Briefcase, label: 'Owner Withdrawal Report', path: '/finance/owner-withdrawal' },
-    { icon: Receipt, label: 'รายงานภาษี (VAT, WHT)', path: '/finance/tax-reports' },
-    { icon: CreditCard, label: 'หนี้สิน / สินทรัพย์ / เงินกู้', path: '/finance/debt-assets' }
+    { icon: BarChart3, label: 'รายรับ / รายจ่าย', path: '/finance' },
+    { icon: LineChart, label: 'รายได้ต่อวัน / สัปดาห์', path: '/finance' },
+    { icon: Calculator, label: 'กำไรสุทธิ', path: '/finance' },
+    { icon: Activity, label: 'Burn Rate & Runway', path: '/finance' },
+    { icon: Briefcase, label: 'Owner Withdrawal Report', path: '/finance' }
   ]
 };
 
@@ -129,50 +119,43 @@ const systemTitles = {
   finance: 'Finance (เงินรอด หรือ เงินชิบหาย)'
 };
 
-// Add staff menu system
+// Staff menu systems with corrected paths
 const staffMenus = {
   patients: [
     { icon: Users, label: 'รายชื่อผู้ป่วย', path: '/staff/patients' },
-    { icon: UserCheck, label: 'ข้อมูลผู้ป่วย', path: '/staff/patients/profile' },
-    { icon: Users, label: 'เพิ่มผู้ป่วยใหม่', path: '/staff/patients/create' },
-    { icon: FileText, label: 'ประวัติการรักษา', path: '/staff/patients/history' },
-    { icon: AlertTriangle, label: 'ผู้ป่วยฉุกเฉิน', path: '/staff/patients/emergency' }
+    { icon: UserCheck, label: 'ข้อมูลผู้ป่วย', path: '/staff/patients' },
+    { icon: Plus, label: 'เพิ่มผู้ป่วยใหม่', path: '/staff/patients' },
+    { icon: FileText, label: 'ประวัติการรักษา', path: '/staff/patients' }
   ],
   appointments: [
     { icon: Calendar, label: 'รายการนัด', path: '/staff/appointments' },
-    { icon: Clock, label: 'ปฏิทินนัดหมาย', path: '/staff/appointments/calendar' },
-    { icon: Users, label: 'จองนัดใหม่', path: '/staff/appointments/create' },
-    { icon: AlertCircle, label: 'นัดวันนี้', path: '/staff/appointments/today' },
-    { icon: UserX, label: 'No-Show Management', path: '/staff/appointments/no-show' }
+    { icon: Clock, label: 'ปฏิทินนัดหมาย', path: '/staff/appointments' },
+    { icon: Plus, label: 'จองนัดใหม่', path: '/staff/appointments' },
+    { icon: AlertCircle, label: 'นัดวันนี้', path: '/staff/appointments' }
   ],
   treatments: [
     { icon: Activity, label: 'บันทึกการรักษา', path: '/staff/treatments' },
-    { icon: FileText, label: 'สร้างบันทึกใหม่', path: '/staff/treatments/create' },
-    { icon: Timer, label: 'ประวัติการรักษา', path: '/staff/treatments/history' },
-    { icon: Package, label: 'คอร์สรักษา', path: '/staff/treatments/courses' },
-    { icon: Star, label: 'Follow-up Treatment', path: '/staff/treatments/followup' }
+    { icon: Plus, label: 'สร้างบันทึกใหม่', path: '/staff/treatments' },
+    { icon: Timer, label: 'ประวัติการรักษา', path: '/staff/treatments' },
+    { icon: Package, label: 'คอร์สรักษา', path: '/staff/treatments' }
   ],
   invoicing: [
     { icon: Receipt, label: 'ออกใบเสร็จ', path: '/staff/invoicing' },
-    { icon: CreditCard, label: 'รับชำระเงิน', path: '/staff/invoicing/payment' },
-    { icon: Calculator, label: 'สร้างใบเสร็จใหม่', path: '/staff/invoicing/create' },
-    { icon: DollarSign, label: 'ติดตามการชำระ', path: '/staff/invoicing/follow-up' },
-    { icon: PieChart, label: 'รายงานการขาย', path: '/staff/invoicing/reports' }
+    { icon: CreditCard, label: 'รับชำระเงิน', path: '/staff/invoicing' },
+    { icon: Plus, label: 'สร้างใบเสร็จใหม่', path: '/staff/invoicing' },
+    { icon: DollarSign, label: 'ติดตามการชำระ', path: '/staff/invoicing' }
   ],
   followup: [
     { icon: MessageCircle, label: 'ติดตามลูกค้า', path: '/staff/followup' },
-    { icon: Plus, label: 'สร้างการติดตาม', path: '/staff/followup/create' },
-    { icon: Briefcase, label: 'งานที่ได้รับมอบหมาย', path: '/staff/followup/tasks' },
-    { icon: Phone, label: 'โทรติดตาม', path: '/staff/followup/calls' },
-    { icon: Calendar, label: 'นัดติดตาม', path: '/staff/followup/schedule' },
-    { icon: Target, label: 'เป้าหมายการขาย', path: '/staff/followup/targets' }
+    { icon: Plus, label: 'สร้างการติดตาม', path: '/staff/followup' },
+    { icon: Briefcase, label: 'งานที่ได้รับมอบหมาย', path: '/staff/followup' },
+    { icon: Phone, label: 'โทรติดตาม', path: '/staff/followup' }
   ],
   chat: [
     { icon: MessageSquare, label: 'แชทสนับสนุน', path: '/staff/chat' },
-    { icon: MessageCircle, label: 'LINE / Facebook', path: '/staff/chat/platforms' },
-    { icon: Timer, label: 'ประวัติการแชท', path: '/staff/chat/history' },
-    { icon: AlertTriangle, label: 'แชทด่วน', path: '/staff/chat/urgent' },
-    { icon: Settings, label: 'ตั้งค่าแชท', path: '/staff/chat/settings' }
+    { icon: MessageCircle, label: 'LINE / Facebook', path: '/staff/chat' },
+    { icon: Timer, label: 'ประวัติการแชท', path: '/staff/chat' },
+    { icon: Settings, label: 'ตั้งค่าแชท', path: '/staff/chat' }
   ]
 };
 
@@ -190,24 +173,28 @@ export function AppSidebar() {
   const location = useLocation();
   const isCollapsed = state === 'collapsed';
 
-  // Determine current system based on route
+  // Improved system detection with better path matching
   const getCurrentSystem = () => {
-    // Check if we're in staff mode
-    if (location.pathname.startsWith('/staff/patients')) return 'patients';
-    if (location.pathname.startsWith('/staff/appointments')) return 'appointments';
-    if (location.pathname.startsWith('/staff/treatments')) return 'treatments';
-    if (location.pathname.startsWith('/staff/invoicing')) return 'invoicing';
-    if (location.pathname.startsWith('/staff/followup')) return 'followup';
-    if (location.pathname.startsWith('/staff/chat')) return 'chat';
+    const path = location.pathname;
     
-    // Executive dashboard routes
-    if (location.pathname.startsWith('/dashboard')) return 'dashboard';
-    if (location.pathname.startsWith('/appointments')) return 'appointment';
-    if (location.pathname.startsWith('/hr-dashboard')) return 'hr';
-    if (location.pathname.startsWith('/branch')) return 'branch';
-    if (location.pathname.startsWith('/feedback')) return 'feedback';
-    if (location.pathname.startsWith('/alerts')) return 'chat';
-    if (location.pathname.startsWith('/finance')) return 'finance';
+    // Staff mode detection with exact matching
+    if (path.startsWith('/staff/patients')) return 'patients';
+    if (path.startsWith('/staff/appointments')) return 'appointments';
+    if (path.startsWith('/staff/treatments')) return 'treatments';
+    if (path.startsWith('/staff/invoicing')) return 'invoicing';
+    if (path.startsWith('/staff/followup')) return 'followup';
+    if (path.startsWith('/staff/chat')) return 'chat';
+    
+    // Executive dashboard routes with better matching
+    if (path === '/' || path.startsWith('/dashboard')) return 'dashboard';
+    if (path.startsWith('/appointments')) return 'appointment';
+    if (path.startsWith('/hr-dashboard')) return 'hr';
+    if (path.startsWith('/branch')) return 'branch';
+    if (path.startsWith('/feedback')) return 'feedback';
+    if (path.startsWith('/alerts')) return 'chat';
+    if (path.startsWith('/finance')) return 'finance';
+    
+    // Default fallback
     return 'dashboard';
   };
 
@@ -218,8 +205,12 @@ export function AppSidebar() {
   const currentMenuItems = isStaffMode ? staffMenus[currentSystem] : systemMenus[currentSystem];
   const systemTitle = isStaffMode ? staffTitles[currentSystem] : systemTitles[currentSystem];
 
+  // Improved active link detection
   const getNavClassName = (path: string) => {
-    const isActive = location.pathname === path;
+    const isActive = location.pathname === path || 
+                    (path === '/' && location.pathname === '/') ||
+                    (path !== '/' && location.pathname.startsWith(path));
+    
     return `w-full flex items-center justify-between px-4 py-4 rounded-2xl transition-all duration-300 group ${
       isActive 
         ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl' 
@@ -259,11 +250,13 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-3">
-              {currentMenuItems?.map((item) => {
-                const isActive = location.pathname === item.path;
+              {currentMenuItems?.map((item, index) => {
+                const isActive = location.pathname === item.path || 
+                               (item.path === '/' && location.pathname === '/') ||
+                               (item.path !== '/' && location.pathname.startsWith(item.path));
                 
                 return (
-                  <SidebarMenuItem key={item.path}>
+                  <SidebarMenuItem key={`${item.path}-${index}`}>
                     <SidebarMenuButton asChild>
                       <NavLink to={item.path} className={getNavClassName(item.path)}>
                         <div className="flex items-center space-x-3">
