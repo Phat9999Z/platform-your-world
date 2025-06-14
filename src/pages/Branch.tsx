@@ -24,9 +24,11 @@ const Branch = () => {
         <Route path="settings" element={<BranchSettings />} />
         <Route path="targets" element={<BranchTargets />} />
         <Route path="net-profit" element={<BranchNetProfit />} />
+        <Route path="profit" element={<BranchNetProfit />} /> {/* เพิ่ม route /branch/profit */}
         <Route path="expenses" element={<BranchExpenses />} />
         <Route path="productivity" element={<BranchProductivity />} />
         <Route path="queue-avg" element={<BranchQueueAvg />} />
+        <Route path="queue-average" element={<BranchQueueAvg />} /> {/* เพิ่ม route /branch/queue-average */}
         <Route path="recommendations" element={<BranchRecommendations />} />
       </Routes>
     </div>
@@ -34,3 +36,4 @@ const Branch = () => {
 };
 
 export default Branch;
+
