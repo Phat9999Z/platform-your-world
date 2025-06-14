@@ -1,27 +1,42 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, TrendingUp, TrendingDown, Calculator } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { branches, branchTargets } from '@/data/branchMockData';
 
-const branchProfitData = [
-  { branch: 'สาขาสยาม', revenue: 4200000, expenses: 2800000, netProfit: 1400000, margin: 33.3 },
-  { branch: 'สาขาทองหล่อ', revenue: 3800000, expenses: 2500000, netProfit: 1300000, margin: 34.2 },
-  { branch: 'สาขาอารีย์', revenue: 2900000, expenses: 1920000, netProfit: 980000, margin: 33.8 },
-  { branch: 'สาขาเซ็นทรัล', revenue: 1950000, expenses: 1200000, netProfit: 750000, margin: 38.5 }
-];
+// กำไรสุทธิคำนวณจาก รายได้ - (target หรือ expenses ที่ มีข้อมูล)
+const branchProfitData = branches.map((branch) => {
+  // หา target (mock: actualRevenue, actualAppointments ฯลฯ)
+  // เอา actual revenue - monthly target หรือ fixed expenses
+  const target = branchTargets.find((t) => t.branchId === branch.id);
+  const expenses = branch.monthlyRevenue - (target ? target.actualRevenue : branch.monthlyTarget);
+  const netProfit = (target ? target.actualRevenue : branch.monthlyRevenue) - expenses;
+  // Margin = netProfit / revenue * 100
+  const margin = branch.monthlyRevenue
+    ? (((target ? target.actualRevenue : branch.monthlyRevenue) - expenses) / (target ? target.actualRevenue : branch.monthlyRevenue)) * 100
+    : 0;
+  return {
+    branch: branch.name,
+    revenue: target ? target.actualRevenue : branch.monthlyRevenue,
+    expenses: expenses > 0 ? expenses : 0,
+    netProfit: netProfit,
+    margin: Number(margin.toFixed(1)),
+  };
+});
 
 const monthlyProfitTrend = [
-  { month: 'ม.ค.', สยาม: 1200000, ทองหล่อ: 1100000, อารีย์: 850000, เซ็นทรัล: 650000 },
-  { month: 'ก.พ.', สยาม: 1250000, ทองหล่อ: 1150000, อารีย์: 880000, เซ็นทรัล: 680000 },
-  { month: 'มี.ค.', สยาม: 1300000, ทองหล่อ: 1200000, อารีย์: 920000, เซ็นทรัล: 700000 },
-  { month: 'เม.ย.', สยาม: 1350000, ทองหล่อ: 1250000, อารีย์: 950000, เซ็นทรัล: 720000 },
-  { month: 'พ.ค.', สยาม: 1380000, ทองหล่อ: 1280000, อารีย์: 970000, เซ็นทรัล: 740000 },
-  { month: 'มิ.ย.', สยาม: 1400000, ทองหล่อ: 1300000, อารีย์: 980000, เซ็นทรัล: 750000 }
+  { month: 'ม.ค.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue * 0.9])) },
+  { month: 'ก.พ.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue * 0.92])) },
+  { month: 'มี.ค.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue * 0.95])) },
+  { month: 'เม.ย.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue * 0.93])) },
+  { month: 'พ.ค.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue * 0.97])) },
+  { month: 'มิ.ย.', ...Object.fromEntries(branches.map(b => [b.name.replace('สาขา', ''), b.monthlyRevenue])) },
 ];
 
 const BranchNetProfit = () => {
   const totalNetProfit = branchProfitData.reduce((sum, branch) => sum + branch.netProfit, 0);
-  const avgMargin = branchProfitData.reduce((sum, branch) => sum + branch.margin, 0) / branchProfitData.length;
+  const avgMargin = branchProfitData.reduce((sum, branch) => sum + branch.margin, 0) / (branchProfitData.length || 1);
 
   return (
     <div className="p-6 space-y-6">
@@ -31,6 +46,7 @@ const BranchNetProfit = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Net Profit */}
         <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -42,7 +58,7 @@ const BranchNetProfit = () => {
             </div>
           </CardContent>
         </Card>
-        
+        {/* Avg Margin */}
         <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -54,19 +70,23 @@ const BranchNetProfit = () => {
             </div>
           </CardContent>
         </Card>
-        
+        {/* Top Profit Branch */}
         <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-purple-100">สาขาที่ทำกำไรสูงสุด</p>
-                <p className="text-2xl font-bold">สยาม</p>
+                <p className="text-2xl font-bold">
+                  {branchProfitData.length
+                    ? branchProfitData.reduce((max, cur) => (cur.netProfit > max.netProfit ? cur : max), branchProfitData[0]).branch.replace('สาขา', '')
+                    : '---'}
+                </p>
               </div>
               <TrendingUp className="h-8 w-8 text-purple-200" />
             </div>
           </CardContent>
         </Card>
-        
+        {/* Mock YoY */}
         <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -81,6 +101,7 @@ const BranchNetProfit = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Net Profit by Branch (Bar) */}
         <Card>
           <CardHeader>
             <CardTitle>กำไรสุทธิตามสาขา</CardTitle>
@@ -97,7 +118,7 @@ const BranchNetProfit = () => {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
+        {/* Monthly Trend */}
         <Card>
           <CardHeader>
             <CardTitle>แนวโน้มกำไรรายเดือน</CardTitle>
@@ -109,10 +130,9 @@ const BranchNetProfit = () => {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="สยาม" stroke="#ef4444" strokeWidth={2} />
-                <Line type="monotone" dataKey="ทองหล่อ" stroke="#3b82f6" strokeWidth={2} />
-                <Line type="monotone" dataKey="อารีย์" stroke="#10b981" strokeWidth={2} />
-                <Line type="monotone" dataKey="เซ็นทรัล" stroke="#f59e0b" strokeWidth={2} />
+                {branches.map((b, i) => (
+                  <Line key={b.id} type="monotone" dataKey={b.name.replace('สาขา', '')} stroke={["#ef4444", "#3b82f6", "#10b981", "#f59e0b"][i % 4]} strokeWidth={2} />
+                ))}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>

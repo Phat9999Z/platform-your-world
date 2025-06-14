@@ -3,9 +3,12 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, MapPin, Users } from 'lucide-react';
+import { branches } from '@/data/branchMockData';
 
+// กรองเฉพาะสาขาจาก branchMockData
 const branchAnalysis = [
   {
+    id: 'BR001',
     branch: 'สาขาสยาม',
     status: 'excellent',
     revenue: 4200000,
@@ -17,7 +20,8 @@ const branchAnalysis = [
     priority: 'high'
   },
   {
-    branch: 'สาขาทองหล่อ',
+    id: 'BR002',
+    branch: 'สาขาเอกมัย',
     status: 'good',
     revenue: 3800000,
     profitMargin: 34.2,
@@ -28,7 +32,8 @@ const branchAnalysis = [
     priority: 'medium'
   },
   {
-    branch: 'สาขาอารีย์',
+    id: 'BR003',
+    branch: 'สาขาทองหล่อ',
     status: 'average',
     revenue: 2900000,
     profitMargin: 33.8,
@@ -37,19 +42,8 @@ const branchAnalysis = [
     reasons: ['รายได้ต่ำกว่าเป้า', 'การเติบโตช้า', 'แข่งขันสูง'],
     action: 'ปรับปรุงการตลาดและบริการ',
     priority: 'medium'
-  },
-  {
-    branch: 'สาขาเซ็นทรัล',
-    status: 'concern',
-    revenue: 1950000,
-    profitMargin: 38.5,
-    customerGrowth: 8.5,
-    recommendation: 'evaluate',
-    reasons: ['รายได้ต่ำ', 'ฐานลูกค้าน้อย', 'ต้นทุนสูง'],
-    action: 'พิจารณาปิดหรือย้ายสถานที่',
-    priority: 'high'
   }
-];
+].filter(x => branches.map(b => b.name).includes(x.branch));
 
 const marketAnalysis = [
   {
@@ -69,24 +63,6 @@ const marketAnalysis = [
     demographics: 'วัยทำงาน 30-50',
     recommendation: 'เปิดสาขาใหม่',
     status: 'recommended'
-  },
-  {
-    area: 'ลาดพร้าว',
-    marketSize: 'เล็ก',
-    competition: 'ต่ำ',
-    potential: 'ปานกลาง',
-    demographics: 'วัยทำงาน 25-40',
-    recommendation: 'รอการพัฒนา',
-    status: 'pending'
-  },
-  {
-    area: 'รามคำแหง',
-    marketSize: 'เล็ก',
-    competition: 'สูง',
-    potential: 'ต่ำ',
-    demographics: 'นักศึกษา',
-    recommendation: 'ไม่แนะนำ',
-    status: 'not-recommended'
   }
 ];
 
@@ -142,7 +118,7 @@ const BranchRecommendations = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-green-100">แนะนำขยาย</p>
-                <p className="text-2xl font-bold">1</p>
+                <p className="text-2xl font-bold">{branchAnalysis.filter(b => b.recommendation === 'expand').length}</p>
                 <p className="text-green-100 text-xs">สาขา</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-200" />
@@ -155,7 +131,7 @@ const BranchRecommendations = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100">รักษาระดับ</p>
-                <p className="text-2xl font-bold">1</p>
+                <p className="text-2xl font-bold">{branchAnalysis.filter(b => b.recommendation === 'maintain').length}</p>
                 <p className="text-blue-100 text-xs">สาขา</p>
               </div>
               <CheckCircle className="h-8 w-8 text-blue-200" />
@@ -168,7 +144,7 @@ const BranchRecommendations = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-yellow-100">ต้องปรับปรุง</p>
-                <p className="text-2xl font-bold">1</p>
+                <p className="text-2xl font-bold">{branchAnalysis.filter(b => b.recommendation === 'improve').length}</p>
                 <p className="text-yellow-100 text-xs">สาขา</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-yellow-200" />
@@ -181,7 +157,7 @@ const BranchRecommendations = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-red-100">พิจารณาปิด</p>
-                <p className="text-2xl font-bold">1</p>
+                <p className="text-2xl font-bold">0</p>
                 <p className="text-red-100 text-xs">สาขา</p>
               </div>
               <TrendingDown className="h-8 w-8 text-red-200" />
