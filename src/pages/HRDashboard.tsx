@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import StaffCount from '@/components/hr/StaffCount';
 
 const HRDashboard = () => {
   const location = useLocation();
@@ -292,63 +294,92 @@ const HRDashboard = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">ระบบ HR/OD</h1>
-        <p className="text-gray-600 mt-1">จัดการบุคลากรและการพัฒนาองค์กร</p>
-      </div>
+      <Routes>
+        <Route path="/staff-count" element={<StaffCount />} />
+        <Route path="/turnover" element={
+          <div className="p-8 text-center text-gray-600">
+            Turnover Rate - กำลังพัฒนา
+          </div>
+        } />
+        <Route path="/payroll" element={
+          <div className="p-8 text-center text-gray-600">
+            Payroll Load - กำลังพัฒนา
+          </div>
+        } />
+        <Route path="/revenue-per-staff" element={
+          <div className="p-8 text-center text-gray-600">
+            Revenue per Staff - กำลังพัฒนา
+          </div>
+        } />
+        <Route path="/top-performance" element={
+          <div className="p-8 text-center text-gray-600">
+            Performance สูงสุด - กำลังพัฒนา
+          </div>
+        } />
+        <Route index element={
+          <div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">ระบบ HR/OD</h1>
+              <p className="text-gray-600 mt-1">จัดการบุคลากรและการพัฒนาองค์กร</p>
+            </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-blue-100">พนักงานทั้งหมด</p>
-                <p className="text-2xl font-bold">{employees.length}</p>
-              </div>
-              <Users className="h-8 w-8 text-blue-200" />
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-blue-100">พนักงานทั้งหมด</p>
+                      <p className="text-2xl font-bold">{employees.length}</p>
+                    </div>
+                    <Users className="h-8 w-8 text-blue-200" />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-green-100">ปฏิบัติงาน</p>
+                      <p className="text-2xl font-bold">{employees.filter(e => e.status === 'active').length}</p>
+                    </div>
+                    <UserPlus className="h-8 w-8 text-green-200" />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-yellow-100">ใบลารอพิจารณา</p>
+                      <p className="text-2xl font-bold">{leaveRequests.filter(r => r.status === 'pending').length}</p>
+                    </div>
+                    <FileText className="h-8 w-8 text-yellow-200" />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-purple-100">เงินเดือนเฉลี่ย</p>
+                      <p className="text-2xl font-bold">฿{Math.round(employees.reduce((a, b) => a + b.salary, 0) / employees.length).toLocaleString()}</p>
+                    </div>
+                    <DollarSign className="h-8 w-8 text-purple-200" />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100">ปฏิบัติงาน</p>
-                <p className="text-2xl font-bold">{employees.filter(e => e.status === 'active').length}</p>
-              </div>
-              <UserPlus className="h-8 w-8 text-green-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-yellow-100">ใบลารอพิจารณา</p>
-                <p className="text-2xl font-bold">{leaveRequests.filter(r => r.status === 'pending').length}</p>
-              </div>
-              <FileText className="h-8 w-8 text-yellow-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-purple-100">เงินเดือนเฉลี่ย</p>
-                <p className="text-2xl font-bold">฿{Math.round(employees.reduce((a, b) => a + b.salary, 0) / employees.length).toLocaleString()}</p>
-              </div>
-              <DollarSign className="h-8 w-8 text-purple-200" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
-      {renderContent()}
+            <div className="mt-8 bg-gray-100 rounded-lg p-8 text-center">
+              <p className="text-gray-600">กรุณาเลือกเมนูจากแถบด้านข้างเพื่อดูรายละเอียด</p>
+            </div>
+          </div>
+        } />
+      </Routes>
     </div>
   );
 };

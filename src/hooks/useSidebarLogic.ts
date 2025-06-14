@@ -60,7 +60,7 @@ export const useSidebarLogic = () => {
     if (path === '/staff/chat' && currentPath === '/staff/chat') return true;
     
     // For sub-routes, only match if current path starts with menu path followed by '/'
-    if (path !== '/' && currentPath.startsWith(path) && currentPath.charAt(path.length) === '/') {
+    if (path !== '/' && currentPath.startsWith(path + '/')) {
       return true;
     }
     
