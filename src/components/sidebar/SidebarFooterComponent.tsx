@@ -1,28 +1,63 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LogOut, ArrowLeft } from 'lucide-react';
 import { SidebarFooter } from '@/components/ui/sidebar';
-import { Shield } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface SidebarFooterComponentProps {
   isStaffMode: boolean;
   isCollapsed: boolean;
 }
 
-const SidebarFooterComponent: React.FC<SidebarFooterComponentProps> = ({
-  isStaffMode,
-  isCollapsed
+const SidebarFooterComponent: React.FC<SidebarFooterComponentProps> = ({ 
+  isStaffMode, 
+  isCollapsed 
 }) => {
-  if (isCollapsed) return null;
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    toast({
+      title: "ออกจากระบบ",
+      description: "กำลังออกจากระบบ...",
+    });
+    logout();
+  };
+
+  const handleBackToMenu = () => {
+    const menuPath = isStaffMode ? '/staff-menu' : '/main-menu';
+    navigate(menuPath);
+  };
 
   return (
-    <SidebarFooter className="p-6">
-      <div className={`${isStaffMode ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'bg-gradient-to-r from-emerald-600 to-teal-600'} rounded-2xl p-6 text-white relative overflow-hidden`}>
-        <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full transform translate-x-10 -translate-y-10"></div>
-        <div className="relative z-10">
-          <Shield className="h-8 w-8 mb-3 text-emerald-100" />
-          <h3 className="font-bold text-lg mb-1">{isStaffMode ? 'Staff Portal' : 'ISO 27001 Certified'}</h3>
-          <p className="text-emerald-100 text-sm">{isStaffMode ? 'ระบบสำหรับพนักงาน' : 'ความปลอดภัยระดับโลก'}</p>
-        </div>
+    <SidebarFooter className="p-6 border-t border-gray-100">
+      <div className="space-y-3">
+        {/* Back to Menu Button */}
+        <button
+          onClick={handleBackToMenu}
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition-all duration-300"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {!isCollapsed && (
+            <span className="font-medium text-sm">
+              {isStaffMode ? 'กลับไปเมนูพนักงาน' : 'กลับไปเมนูหลัก'}
+            </span>
+          )}
+        </button>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 transition-all duration-300"
+        >
+          <LogOut className="h-4 w-4" />
+          {!isCollapsed && (
+            <span className="font-medium text-sm">ออกจากระบบ</span>
+          )}
+        </button>
       </div>
     </SidebarFooter>
   );

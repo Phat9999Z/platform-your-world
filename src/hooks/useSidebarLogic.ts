@@ -28,14 +28,14 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/alerts')) return 'chat';
     if (path.startsWith('/finance')) return 'finance';
     
-    // Default fallback - return dashboard for main menu and unknown routes
+    // Default fallback
     return 'dashboard';
   };
 
   const isStaffMode = location.pathname.startsWith('/staff/');
   const currentSystem = getCurrentSystem();
   
-  // Ensure we always have menu items - fallback to dashboard menu if current system doesn't have items
+  // Ensure we always have menu items
   const currentMenuItems = isStaffMode 
     ? (staffMenus[currentSystem] || staffMenus['patients']) 
     : (systemMenus[currentSystem] || systemMenus['dashboard']);
@@ -50,17 +50,25 @@ export const useSidebarLogic = () => {
     // Handle exact matches first
     if (currentPath === path) return true;
     
-    // Handle root path specially - only active if we're exactly at root or dashboard
+    // Handle root path specially
     if (path === '/' || path === '/dashboard') {
       return currentPath === '/' || currentPath === '/dashboard';
     }
     
     // For sub-paths, check if current path starts with the menu path
-    // This will make parent menu items active when on sub-routes
     if (currentPath.startsWith(path + '/')) return true;
     
     return false;
   };
+
+  // Debug logging
+  console.log('Sidebar Debug:', {
+    currentPath: location.pathname,
+    currentSystem,
+    isStaffMode,
+    menuItemsCount: currentMenuItems?.length || 0,
+    systemTitle
+  });
 
   return {
     currentSystem,

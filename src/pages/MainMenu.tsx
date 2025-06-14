@@ -19,7 +19,6 @@ const MainMenu = () => {
       description: "กำลังออกจากระบบ...",
     });
     
-    // Use the logout function from auth context
     logout();
   };
 
@@ -37,7 +36,7 @@ const MainMenu = () => {
       
       <hr className="max-w-4xl mx-auto w-full border-t border-teal-700/30 mb-8" />
 
-      {/* Main Content - Vertically and Horizontally Centered */}
+      {/* Main Content */}
       <main className="flex-grow flex items-start justify-center px-6 pb-10">
         <div className="w-full max-w-4xl">
           {/* Menu Grid */}
@@ -88,7 +87,7 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            <Link to="/" className="block md:col-span-2">
+            <Link to="/dashboard" className="block md:col-span-2">
               <MenuCard 
                 title="Dashboard" 
                 icon={<BarChart size={32} />} 
