@@ -2,10 +2,16 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+interface UserType {
+  username: string;
+  role: string;
+  [key: string]: any;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: any;
-  login: (credentials: any) => void;
+  user: UserType | null;
+  login: (credentials: { username: string; password: string; role: string }) => void;
   logout: () => void;
 }
 
@@ -25,11 +31,11 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for demo
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const navigate = useNavigate();
 
-  const login = (credentials: any) => {
-    // Mock login logic
+  const login = (credentials: { username: string; password: string; role: string }) => {
+    // Mock login logic, store role with user
     setIsAuthenticated(true);
     setUser(credentials);
   };
