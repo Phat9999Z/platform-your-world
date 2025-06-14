@@ -14,6 +14,9 @@ import AppointmentList from '@/components/appointments/AppointmentList';
 import CreateAppointmentForm from '@/components/appointments/CreateAppointmentForm';
 import DoctorUsage from '@/components/appointments/DoctorUsage';
 import NoShowRate from '@/components/appointments/NoShowRate';
+import AppointmentRevenue from '@/components/appointments/AppointmentRevenue';
+import TopDoctors from '@/components/appointments/TopDoctors';
+import QueueAnalysis from '@/components/appointments/QueueAnalysis';
 
 const Appointments = () => {
   const location = useLocation();
@@ -24,21 +27,9 @@ const Appointments = () => {
       <Routes>
         <Route path="/doctor-usage" element={<DoctorUsage />} />
         <Route path="/no-show" element={<NoShowRate />} />
-        <Route path="/revenue" element={
-          <div className="p-8 text-center text-gray-600">
-            รายได้ต่อช่วงเวลา - กำลังพัฒนา
-          </div>
-        } />
-        <Route path="/top-doctors" element={
-          <div className="p-8 text-center text-gray-600">
-            หมอสร้างรายได้สูงสุด - กำลังพัฒนา
-          </div>
-        } />
-        <Route path="/queue-analysis" element={
-          <div className="p-8 text-center text-gray-600">
-            วิเคราะห์คิว - กำลังพัฒนา
-          </div>
-        } />
+        <Route path="/revenue" element={<AppointmentRevenue />} />
+        <Route path="/top-doctors" element={<TopDoctors />} />
+        <Route path="/queue-analysis" element={<QueueAnalysis />} />
         <Route path="/create" element={<CreateAppointmentForm />} />
         <Route index element={
           <div>

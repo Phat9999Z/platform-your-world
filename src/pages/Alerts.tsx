@@ -3,6 +3,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ChatVolume from '@/components/alerts/ChatVolume';
 import ResponseTime from '@/components/alerts/ResponseTime';
+import OffScript from '@/components/alerts/OffScript';
+import BotFailRate from '@/components/alerts/BotFailRate';
 
 const Alerts = () => {
   return (
@@ -10,16 +12,8 @@ const Alerts = () => {
       <Routes>
         <Route path="/chat-volume" element={<ChatVolume />} />
         <Route path="/response-time" element={<ResponseTime />} />
-        <Route path="/off-script" element={
-          <div className="p-8 text-center text-gray-600">
-            คำถามนอกสคริปต์ - กำลังพัฒนา
-          </div>
-        } />
-        <Route path="/bot-fail" element={
-          <div className="p-8 text-center text-gray-600">
-            Bot Fail Rate - กำลังพัฒนา
-          </div>
-        } />
+        <Route path="/off-script" element={<OffScript />} />
+        <Route path="/bot-fail" element={<BotFailRate />} />
         <Route index element={
           <div className="p-6">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">ประสิทธิภาพการสื่อสาร</h1>
