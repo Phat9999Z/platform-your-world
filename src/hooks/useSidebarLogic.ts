@@ -20,7 +20,6 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/analytics')) return 'analytics';
     
     // Executive dashboard routes with better matching
-    if (path === '/') return 'dashboard';
     if (path.startsWith('/dashboard')) return 'dashboard';
     if (path.startsWith('/appointments')) return 'appointment';
     if (path.startsWith('/hr-dashboard')) return 'hr';
@@ -29,17 +28,25 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/alerts')) return 'chat';
     if (path.startsWith('/finance')) return 'finance';
     
+    // Default fallback - return dashboard for main menu and unknown routes
     return 'dashboard';
   };
 
   const isStaffMode = location.pathname.startsWith('/staff/');
   const currentSystem = getCurrentSystem();
   
-  const currentMenuItems = isStaffMode ? staffMenus[currentSystem] : systemMenus[currentSystem];
-  const systemTitle = isStaffMode ? staffTitles[currentSystem] : systemTitles[currentSystem];
+  // Ensure we always have menu items - fallback to dashboard menu if current system doesn't have items
+  const currentMenuItems = isStaffMode 
+    ? (staffMenus[currentSystem] || staffMenus['patients']) 
+    : (systemMenus[currentSystem] || systemMenus['dashboard']);
+    
+  const systemTitle = isStaffMode 
+    ? (staffTitles[currentSystem] || staffTitles['patients'])
+    : (systemTitles[currentSystem] || systemTitles['dashboard']);
 
   const isActiveLink = (path: string) => {
-    if (path === '/' && location.pathname === '/') return true;
+    // Special handling for root path
+    if (path === '/' && (location.pathname === '/' || location.pathname === '/dashboard')) return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
     return false;
   };

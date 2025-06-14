@@ -32,7 +32,7 @@ function App() {
             {/* Login/Index Route */}
             <Route path="/login" element={<Index />} />
             
-            {/* Main Menu Routes */}
+            {/* Main Menu Routes - No Sidebar */}
             <Route path="/" element={<MainMenu />} />
             <Route path="/main-menu" element={<MainMenu />} />
             <Route path="/staff-menu" element={<StaffMenu />} />

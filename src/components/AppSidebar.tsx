@@ -25,6 +25,14 @@ export function AppSidebar() {
     isActiveLink
   } = useSidebarLogic();
 
+  // Debug log to check if menu items are loaded
+  console.log('Sidebar Debug:', {
+    isStaffMode,
+    currentMenuItems: currentMenuItems?.length || 0,
+    systemTitle,
+    isCollapsed
+  });
+
   return (
     <Sidebar className="bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-100">
       <SidebarHeaderComponent 
@@ -40,15 +48,21 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-3">
-              {currentMenuItems?.map((item, index) => (
-                <SidebarMenuItem
-                  key={`${item.path}-${index}`}
-                  item={item}
-                  isActive={isActiveLink(item.path)}
-                  isStaffMode={isStaffMode}
-                  isCollapsed={isCollapsed}
-                />
-              ))}
+              {currentMenuItems && currentMenuItems.length > 0 ? (
+                currentMenuItems.map((item, index) => (
+                  <SidebarMenuItem
+                    key={`${item.path}-${index}`}
+                    item={item}
+                    isActive={isActiveLink(item.path)}
+                    isStaffMode={isStaffMode}
+                    isCollapsed={isCollapsed}
+                  />
+                ))
+              ) : (
+                <div className="text-gray-500 text-sm p-4">
+                  {!isCollapsed ? 'ไม่พบรายการเมนู' : ''}
+                </div>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
