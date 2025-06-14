@@ -47,18 +47,28 @@ export const useSidebarLogic = () => {
   const isActiveLink = (path: string) => {
     const currentPath = location.pathname;
     
-    // Handle root path specially
-    if (path === '/' && (currentPath === '/' || currentPath === '/dashboard')) return true;
+    // Handle exact matches first
+    if (currentPath === path) return true;
     
-    // For non-root paths, check exact match or if current path starts with the menu path
-    // But avoid false positives by ensuring the next character is '/' or end of string
-    if (path !== '/') {
-      if (currentPath === path) return true;
-      if (currentPath.startsWith(path + '/')) return true;
+    // Handle root path specially - only active if we're exactly at root or dashboard
+    if (path === '/' || path === '/dashboard') {
+      return currentPath === '/' || currentPath === '/dashboard';
     }
+    
+    // For sub-paths, check if current path starts with the menu path
+    // This will make parent menu items active when on sub-routes
+    if (currentPath.startsWith(path + '/')) return true;
     
     return false;
   };
+
+  console.log('Sidebar Navigation Debug:', {
+    currentPath: location.pathname,
+    currentSystem,
+    isStaffMode,
+    menuItemsCount: currentMenuItems?.length || 0,
+    systemTitle
+  });
 
   return {
     currentSystem,
