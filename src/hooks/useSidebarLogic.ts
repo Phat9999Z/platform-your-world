@@ -16,6 +16,9 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/staff/followup')) return 'followup';
     if (path.startsWith('/staff/chat')) return 'chat';
     
+    // Analytics routes
+    if (path.startsWith('/analytics')) return 'analytics';
+    
     // Executive dashboard routes with better matching
     if (path === '/') return 'dashboard';
     if (path.startsWith('/dashboard')) return 'dashboard';

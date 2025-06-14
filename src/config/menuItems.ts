@@ -1,4 +1,3 @@
-
 import {
   Eye,
   Sparkles,
@@ -44,13 +43,21 @@ export interface MenuItem {
 export const systemMenus = {
   dashboard: [
     { icon: BarChart3, label: 'ภาพรวมธุรกิจ', path: '/' },
-    { icon: DollarSign, label: 'รายได้รวม', path: '/dashboard' },
-    { icon: TrendingUp, label: 'ยอดขายตามช่วงเวลา', path: '/dashboard' },
-    { icon: Calculator, label: 'กำไรสุทธิ (Net Profit)', path: '/dashboard' },
-    { icon: Activity, label: 'Burn Rate', path: '/dashboard' },
-    { icon: Clock, label: 'Runway', path: '/dashboard' },
-    { icon: LineChart, label: 'อัตราการเติบโต', path: '/dashboard' },
-    { icon: Target, label: 'KPI องค์กร', path: '/dashboard' }
+    { icon: DollarSign, label: 'รายได้รวม', path: '/dashboard/revenue' },
+    { icon: TrendingUp, label: 'ยอดขายตามช่วงเวลา', path: '/dashboard/sales-timeline' },
+    { icon: Calculator, label: 'กำไรสุทธิ (Net Profit)', path: '/dashboard/net-profit' },
+    { icon: Activity, label: 'Burn Rate', path: '/dashboard/burn-rate' },
+    { icon: Clock, label: 'Runway', path: '/dashboard/runway' },
+    { icon: LineChart, label: 'อัตราการเติบโต', path: '/dashboard/growth-rate' },
+    { icon: Target, label: 'KPI องค์กร', path: '/dashboard/kpi' }
+  ],
+  analytics: [
+    { icon: BarChart3, label: 'Analytics Overview', path: '/analytics' },
+    { icon: Users, label: 'Customer Analytics', path: '/analytics/customers' },
+    { icon: DollarSign, label: 'Financial KPIs', path: '/analytics/financial' },
+    { icon: TrendingUp, label: 'Staff Performance', path: '/analytics/staff' },
+    { icon: Package, label: 'Inventory Optimization', path: '/analytics/inventory' },
+    { icon: Target, label: 'Lead Conversion', path: '/analytics/leads' }
   ],
   appointment: [
     { icon: BarChart3, label: 'ประสิทธิภาพการจอง', path: '/appointments' },
@@ -102,6 +109,7 @@ export const systemMenus = {
 
 export const systemTitles = {
   dashboard: 'Dashboard (Executive Overview)',
+  analytics: 'Advanced Analytics (AI-Powered Insights)',
   appointment: 'Appointment (Performance Monitoring)',
   hr: 'HR / OD (องค์กรและพนักงาน)',
   branch: 'Branch (Multi-location Performance)',

@@ -1,93 +1,59 @@
-import React from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
-import Layout from "./components/Layout";
-import Index from "./pages/Index";
-import MainMenu from "./pages/MainMenu";
-import StaffMenu from "./pages/StaffMenu";
-import Dashboard from "./pages/Dashboard";
-import Finance from "./pages/Finance";
-import Appointments from "./pages/Appointments";
-import HRDashboard from "./pages/HRDashboard";
-import Branch from "./pages/Branch";
-import Feedback from "./pages/Feedback";
-import Chat from "./pages/Chat";
-import NotFound from "./pages/NotFound";
-import StaffPatients from "./pages/StaffPatients";
-import StaffAppointments from "./pages/StaffAppointments";
-import StaffTreatments from "./pages/StaffTreatments";
-import StaffInvoicing from "./pages/StaffInvoicing";
-import StaffFollowup from "./pages/StaffFollowup";
-import StaffChat from "./pages/StaffChat";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Index from '@/pages/Index';
+import Dashboard from '@/pages/Dashboard';
+import Appointments from '@/pages/Appointments';
+import HrDashboard from '@/pages/HrDashboard';
+import Branch from '@/pages/Branch';
+import Feedback from '@/pages/Feedback';
+import Alerts from '@/pages/Alerts';
+import Finance from '@/pages/Finance';
+import StaffPatients from '@/pages/staff/StaffPatients';
+import StaffAppointments from '@/pages/staff/StaffAppointments';
+import StaffTreatments from '@/pages/staff/StaffTreatments';
+import StaffInvoicing from '@/pages/staff/StaffInvoicing';
+import StaffFollowup from '@/pages/staff/StaffFollowup';
+import StaffChat from '@/pages/staff/StaffChat';
+import NotFound from '@/pages/NotFound';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { AuthProvider } from '@/contexts/AuthContext';
+import Analytics from '@/pages/Analytics';
 
-const queryClient = new QueryClient();
-
-const App: React.FC = () => {
+function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AuthProvider>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Index />} />
-                
-                {/* Dashboard System Routes */}
-                <Route path="dashboard/*" element={<Dashboard />} />
-                
-                <Route path="patients" element={<div className="p-8 text-center text-gray-600">Patient Intelligence Page - Coming Soon</div>} />
-                <Route path="scheduling" element={<div className="p-8 text-center text-gray-600">Smart Scheduling Page - Coming Soon</div>} />
-                <Route path="doctors" element={<div className="p-8 text-center text-gray-600">Doctor Performance Page - Coming Soon</div>} />
-                <Route path="treatments" element={<div className="p-8 text-center text-gray-600">Treatment Outcomes Page - Coming Soon</div>} />
-                <Route path="revenue" element={<div className="p-8 text-center text-gray-600">Revenue Analytics Page - Coming Soon</div>} />
-                <Route path="quality" element={<div className="p-8 text-center text-gray-600">Quality Metrics Page - Coming Soon</div>} />
-                <Route path="reports" element={<div className="p-8 text-center text-gray-600">Business Reports Page - Coming Soon</div>} />
-                
-                {/* Appointment System Routes */}
-                <Route path="appointments/*" element={<Appointments />} />
-                
-                {/* HR/OD System Routes */}
-                <Route path="hr-dashboard/*" element={<HRDashboard />} />
-                
-                {/* Branch System Routes */}
-                <Route path="branch/*" element={<Branch />} />
-                
-                {/* Feedback System Routes */}
-                <Route path="feedback/*" element={<Feedback />} />
-                
-                {/* Finance System Routes */}
-                <Route path="finance/*" element={<Finance />} />
-                
-                {/* Chat System Routes */}
-                <Route path="alerts/*" element={<Chat />} />
-
-                {/* Staff Portal Routes - Using Layout with Sidebar */}
-                <Route path="staff/patients/*" element={<StaffPatients />} />
-                <Route path="staff/appointments/*" element={<StaffAppointments />} />
-                <Route path="staff/treatments/*" element={<StaffTreatments />} />
-                <Route path="staff/invoicing/*" element={<StaffInvoicing />} />
-                <Route path="staff/followup/*" element={<StaffFollowup />} />
-                <Route path="staff/chat/*" element={<StaffChat />} />
-              </Route>
-              
-              {/* Menu Routes */}
-              <Route path="/main-menu" element={<MainMenu />} />
-              <Route path="/staff-menu" element={<StaffMenu />} />
-              
-              {/* Catch-all route - ALWAYS KEEP THIS LAST */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+          <SidebarProvider>
+            <div className="flex min-h-screen">
+              <AppSidebar />
+              <main className="flex-1 overflow-auto">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/dashboard/*" element={<Dashboard />} />
+                  <Route path="/appointments/*" element={<Appointments />} />
+                  <Route path="/hr-dashboard/*" element={<HrDashboard />} />
+                  <Route path="/branch/*" element={<Branch />} />
+                  <Route path="/feedback/*" element={<Feedback />} />
+                  <Route path="/alerts/*" element={<Alerts />} />
+                  <Route path="/finance/*" element={<Finance />} />
+                  <Route path="/staff/patients/*" element={<StaffPatients />} />
+                  <Route path="/staff/appointments/*" element={<StaffAppointments />} />
+                  <Route path="/staff/treatments/*" element={<StaffTreatments />} />
+                  <Route path="/staff/invoicing/*" element={<StaffInvoicing />} />
+                  <Route path="/staff/followup/*" element={<StaffFollowup />} />
+                  <Route path="/staff/chat/*" element={<StaffChat />} />
+                  <Route path="/analytics/*" element={<Analytics />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
+          </SidebarProvider>
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
