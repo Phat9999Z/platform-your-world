@@ -2,109 +2,76 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Clock, 
-  TrendingUp, 
-  TrendingDown,
-  AlertTriangle,
-  DollarSign,
-  Calendar,
-  Target,
-  Activity
-} from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { Clock, AlertTriangle, TrendingUp, DollarSign, Calendar, Target, Download } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
+
+const runwayData = [
+  { month: 'ม.ค.', cashOnHand: 125000000, burnRate: 1800000, runway: 69 },
+  { month: 'ก.พ.', cashOnHand: 123500000, burnRate: 1850000, runway: 67 },
+  { month: 'มี.ค.', cashOnHand: 124380000, burnRate: 1920000, runway: 65 },
+  { month: 'เม.ย.', cashOnHand: 125530000, burnRate: 2050000, runway: 61 },
+  { month: 'พ.ค.', cashOnHand: 126330000, burnRate: 2100000, runway: 60 },
+  { month: 'มิ.ย.', ชOnHand: 127550000, burnRate: 2180000, runway: 58 },
+  { month: 'ก.ค.', cashOnHand: 128900000, burnRate: 2250000, runway: 57 },
+  { month: 'ส.ค.', cashOnHand: 129900000, burnRate: 2300000, runway: 56 },
+  { month: 'ก.ย.', cashOnHand: 131300000, burnRate: 2400000, runway: 55 },
+  { month: 'ต.ค.', cashOnHand: 132900000, burnRate: 2500000, runway: 53 },
+  { month: 'พ.ย.', cashOnHand: 134350000, burnRate: 2450000, runway: 55 },
+  { month: 'ธ.ค.', cashOnHand: 136050000, burnRate: 2600000, runway: 52 }
+];
+
+const scenarioAnalysis = [
+  { scenario: 'ปัจจุบัน', burnRate: 2600000, runway: 52, status: 'warning' },
+  { scenario: 'ลดค่าใช้จ่าย 10%', burnRate: 2340000, runway: 58, status: 'good' },
+  { scenario: 'ลดค่าใช้จ่าย 20%', burnRate: 2080000, runway: 65, status: 'excellent' },
+  { scenario: 'เพิ่มรายได้ 15%', burnRate: 2600000, runway: 60, status: 'good' },
+  { scenario: 'กรณีเลวร้าย', burnRate: 3120000, runway: 44, status: 'danger' }
+];
+
+const cashFlowProjection = [
+  { month: 'ธ.ค.', cash: 136050000, type: 'actual' },
+  { month: 'ม.ค.', cash: 133450000, type: 'projection' },
+  { month: 'ก.พ.', cash: 130850000, type: 'projection' },
+  { month: 'มี.ค.', cash: 128250000, type: 'projection' },
+  { month: 'เม.ย.', cash: 125650000, type: 'projection' },
+  { month: 'พ.ค.', cash: 123050000, type: 'projection' },
+  { month: 'มิ.ย.', cash: 120450000, type: 'projection' }
+];
+
+const mitigationActions = [
+  { action: 'ลดพนักงาน 5%', impact: 455000, newRunway: 58, difficulty: 'hard' },
+  { action: 'เจรจาค่าเช่าใหม่', impact: 200000, newRunway: 55, difficulty: 'medium' },
+  { action: 'ปรับปรุงประสิทธิภาพ', impact: 300000, newRunway: 57, difficulty: 'medium' },
+  { action: 'เพิ่มบริการใหม่', impact: -400000, newRunway: 62, difficulty: 'easy' },
+  { action: 'หยุดการตลาดชั่วคราว', impact: 260000, newRunway: 56, difficulty: 'easy' }
+];
 
 const DashboardRunway = () => {
+  const [selectedView, setSelectedView] = useState('overview');
   const [selectedScenario, setSelectedScenario] = useState('current');
 
-  // Mock runway data
-  const runwayData = {
-    current: {
-      cash_on_hand: 12500000,
-      monthly_burn_rate: 2100000,
-      runway_months: 5.95,
-      runway_days: 178,
-      status: 'warning'
-    },
-    optimistic: {
-      cash_on_hand: 12500000,
-      monthly_burn_rate: 1850000,
-      runway_months: 6.76,
-      runway_days: 203,
-      status: 'good'
-    },
-    pessimistic: {
-      cash_on_hand: 12500000,
-      monthly_burn_rate: 2450000,
-      runway_months: 5.10,
-      runway_days: 153,
-      status: 'critical'
-    }
+  const currentRunway = runwayData[runwayData.length - 1].runway;
+  const previousRunway = runwayData[runwayData.length - 2].runway;
+  const runwayChange = currentRunway - previousRunway;
+  const currentCash = runwayData[runwayData.length - 1].cashOnHand;
+  const currentBurnRate = runwayData[runwayData.length - 1].burnRate;
+
+  const getRunwayStatus = (runway: number) => {
+    if (runway > 60) return { color: 'green', status: 'ปลอดภัย' };
+    if (runway > 45) return { color: 'yellow', status: 'ระวัง' };
+    return { color: 'red', status: 'อันตราย' };
   };
 
-  const burnRateHistory = [
-    { month: 'ม.ค.', actual: 1950000, projected: 2000000 },
-    { month: 'ก.พ.', actual: 2050000, projected: 2000000 },
-    { month: 'มี.ค.', actual: 2150000, projected: 2100000 },
-    { month: 'เม.ย.', actual: 2080000, projected: 2100000 },
-    { month: 'พ.ค.', actual: 2200000, projected: 2100000 },
-    { month: 'มิ.ย.', actual: 2100000, projected: 2100000 }
-  ];
-
-  const projectionData = [
-    { month: 'มิ.ย.', cash: 12500000, burn: 2100000 },
-    { month: 'ก.ค.', cash: 10400000, burn: 2100000 },
-    { month: 'ส.ค.', cash: 8300000, burn: 2100000 },
-    { month: 'ก.ย.', cash: 6200000, burn: 2100000 },
-    { month: 'ต.ค.', cash: 4100000, burn: 2100000 },
-    { month: 'พ.ย.', cash: 2000000, burn: 2100000 },
-    { month: 'ธ.ค.', cash: -100000, burn: 2100000 }
-  ];
-
-  const expenseBreakdown = [
-    { category: 'เงินเดือน', amount: 1200000, percentage: 57.1 },
-    { category: 'ค่าเช่า', amount: 350000, percentage: 16.7 },
-    { category: 'การตลาด', amount: 280000, percentage: 13.3 },
-    { category: 'สาธารณูปโภค', amount: 150000, percentage: 7.1 },
-    { category: 'อื่นๆ', amount: 120000, percentage: 5.7 }
-  ];
-
-  const currentData = runwayData[selectedScenario];
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('th-TH', {
-      style: 'currency',
-      currency: 'THB'
-    }).format(amount);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'good': return 'text-green-600 bg-green-100';
-      case 'warning': return 'text-yellow-600 bg-yellow-100';
-      case 'critical': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'good': return 'ปลอดภัย';
-      case 'warning': return 'ต้องระวัง';
-      case 'critical': return 'วิกฤต';
-      default: return 'ไม่ทราบ';
-    }
-  };
+  const runwayStatus = getRunwayStatus(currentRunway);
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Runway Analysis</h1>
-          <p className="text-gray-600">วิเคราะห์ระยะเวลาที่เงินสดคงเหลือจะหมด</p>
+          <p className="text-gray-600 mt-1">วิเคราะห์ระยะเวลาที่เงินสดคงเหลือพอใช้</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex space-x-3">
           <select 
             value={selectedScenario}
             onChange={(e) => setSelectedScenario(e.target.value)}
@@ -114,81 +81,25 @@ const DashboardRunway = () => {
             <option value="optimistic">สถานการณ์ดี</option>
             <option value="pessimistic">สถานการณ์เลวร้าย</option>
           </select>
+          <Button className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            ส่งออกรายงาน
+          </Button>
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <DollarSign className="h-8 w-8 text-blue-600" />
-              <div>
-                <p className="text-sm text-blue-600">เงินสดคงเหลือ</p>
-                <p className="text-2xl font-bold text-blue-900">
-                  {formatCurrency(currentData.cash_on_hand)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-red-50 to-red-100">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <Activity className="h-8 w-8 text-red-600" />
-              <div>
-                <p className="text-sm text-red-600">Burn Rate (เดือน)</p>
-                <p className="text-2xl font-bold text-red-900">
-                  {formatCurrency(currentData.monthly_burn_rate)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <Calendar className="h-8 w-8 text-orange-600" />
-              <div>
-                <p className="text-sm text-orange-600">Runway (เดือน)</p>
-                <p className="text-2xl font-bold text-orange-900">
-                  {currentData.runway_months.toFixed(1)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <Clock className="h-8 w-8 text-purple-600" />
-              <div>
-                <p className="text-sm text-purple-600">Runway (วัน)</p>
-                <p className="text-2xl font-bold text-purple-900">
-                  {currentData.runway_days}
-                </p>
-                <Badge className={getStatusColor(currentData.status)}>
-                  {getStatusText(currentData.status)}
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Runway Alert */}
-      {currentData.status === 'critical' && (
-        <Card className="border-red-200 bg-red-50">
+      {/* Alert Section */}
+      {currentRunway < 60 && (
+        <Card className={`border-${runwayStatus.color === 'red' ? 'red' : 'yellow'}-200 bg-${runwayStatus.color === 'red' ? 'red' : 'yellow'}-50`}>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="h-6 w-6 text-red-600" />
+              <AlertTriangle className={`h-6 w-6 text-${runwayStatus.color === 'red' ? 'red' : 'yellow'}-600`} />
               <div>
-                <h3 className="font-semibold text-red-800">แจ้งเตือนวิกฤต!</h3>
-                <p className="text-red-700">
-                  เงินสดคงเหลือจะหมดภายใน {currentData.runway_days} วัน จำเป็นต้องหาแหล่งเงินทุนเพิ่มหรือลดค่าใช้จ่ายโดยด่วน
+                <h3 className={`font-semibold text-${runwayStatus.color === 'red' ? 'red' : 'yellow'}-800`}>
+                  แจ้งเตือน: Runway {runwayStatus.status}
+                </h3>
+                <p className={`text-sm text-${runwayStatus.color === 'red' ? 'red' : 'yellow'}-600`}>
+                  เงินสดคงเหลือพอใช้ได้เพียง {currentRunway} วัน ควรดำเนินการแก้ไขทันที
                 </p>
               </div>
             </div>
@@ -196,120 +107,277 @@ const DashboardRunway = () => {
         </Card>
       )}
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Cash Flow Projection */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingDown className="h-5 w-5 text-red-600" />
-              การคาดการณ์เงินสด 6 เดือนข้างหน้า
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={projectionData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip 
-                  formatter={(value, name) => [
-                    formatCurrency(Number(value)), 
-                    name === 'cash' ? 'เงินสดคงเหลือ' : 'Burn Rate'
-                  ]}
-                />
-                <Line 
-                  dataKey="cash" 
-                  stroke="#3b82f6" 
-                  strokeWidth={3}
-                  name="cash"
-                />
-                <Line 
-                  dataKey="burn" 
-                  stroke="#ef4444" 
-                  strokeWidth={2}
-                  strokeDasharray="5 5"
-                  name="burn"
-                />
-              </LineChart>
-            </ResponsiveContainer>
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className={`bg-gradient-to-r from-${runwayStatus.color}-500 to-${runwayStatus.color}-600 text-white`}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className={`text-${runwayStatus.color}-100`}>Runway ปัจจุบัน</p>
+                <p className="text-2xl font-bold">{currentRunway} วัน</p>
+              </div>
+              <Clock className={`h-8 w-8 text-${runwayStatus.color}-200`} />
+            </div>
           </CardContent>
         </Card>
-
-        {/* Burn Rate History */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5 text-orange-600" />
-              Burn Rate ย้อนหลัง 6 เดือน
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={burnRateHistory}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Bar dataKey="projected" fill="#e5e7eb" name="คาดการณ์" />
-                <Bar dataKey="actual" fill="#f59e0b" name="จริง" />
-              </BarChart>
-            </ResponsiveContainer>
+        
+        <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-blue-100">เงินสดคงเหลือ</p>
+                <p className="text-2xl font-bold">฿{(currentCash / 1000000).toFixed(0)}M</p>
+              </div>
+              <DollarSign className="h-8 w-8 text-blue-200" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-orange-100">การเปลี่ยนแปลง</p>
+                <p className="text-2xl font-bold">
+                  {runwayChange > 0 ? '+' : ''}{runwayChange} วัน
+                </p>
+              </div>
+              {runwayChange > 0 ? 
+                <TrendingUp className="h-8 w-8 text-orange-200" /> : 
+                <AlertTriangle className="h-8 w-8 text-orange-200" />
+              }
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-purple-100">Burn Rate</p>
+                <p className="text-2xl font-bold">฿{(currentBurnRate / 1000000).toFixed(1)}M</p>
+              </div>
+              <Target className="h-8 w-8 text-purple-200" />
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Expense Breakdown */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-green-600" />
-            แยกค่าใช้จ่ายที่ส่งผลต่อ Burn Rate
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {expenseBreakdown.map((expense, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-emerald-500 rounded-full"></div>
-                  <span className="font-medium">{expense.category}</span>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold">{formatCurrency(expense.amount)}</div>
-                  <div className="text-sm text-gray-600">{expense.percentage.toFixed(1)}%</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* View Tabs */}
+      <div className="flex space-x-4 border-b">
+        <button 
+          onClick={() => setSelectedView('overview')}
+          className={`px-4 py-2 border-b-2 ${selectedView === 'overview' ? 'border-blue-500 text-blue-600' : 'border-transparent'}`}
+        >
+          ภาพรวม
+        </button>
+        <button 
+          onClick={() => setSelectedView('scenarios')}
+          className={`px-4 py-2 border-b-2 ${selectedView === 'scenarios' ? 'border-blue-500 text-blue-600' : 'border-transparent'}`}
+        >
+          สถานการณ์จำลอง
+        </button>
+        <button 
+          onClick={() => setSelectedView('actions')}
+          className={`px-4 py-2 border-b-2 ${selectedView === 'actions' ? 'border-blue-500 text-blue-600' : 'border-transparent'}`}
+        >
+          แผนแก้ไข
+        </button>
+      </div>
 
-      {/* Action Items */}
-      <Card>
+      {/* Charts based on selected view */}
+      {selectedView === 'overview' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>แนวโน้ม Runway</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={runwayData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => [`${value} วัน`, 'Runway']} />
+                  <Line type="monotone" dataKey="runway" stroke="#ef4444" strokeWidth={3} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>คาดการณ์เงินสด</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={cashFlowProjection}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => [`฿${Number(value).toLocaleString()}`, 'เงินสด']} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="cash" 
+                    stroke="#3b82f6" 
+                    fill="#93c5fd" 
+                    fillOpacity={0.6}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {selectedView === 'scenarios' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>การวิเคราะห์สถานการณ์</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {scenarioAnalysis.map((scenario, index) => (
+                  <div key={index} className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold">{scenario.scenario}</h3>
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        scenario.status === 'excellent' ? 'bg-green-100 text-green-800' :
+                        scenario.status === 'good' ? 'bg-blue-100 text-blue-800' :
+                        scenario.status === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {scenario.runway} วัน
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Burn Rate: ฿{scenario.burnRate.toLocaleString()}/เดือน
+                    </div>
+                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          scenario.status === 'excellent' ? 'bg-green-600' :
+                          scenario.status === 'good' ? 'bg-blue-600' :
+                          scenario.status === 'warning' ? 'bg-yellow-600' :
+                          'bg-red-600'
+                        }`}
+                        style={{ width: `${Math.min(scenario.runway, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>เปรียบเทียบสถานการณ์</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={scenarioAnalysis}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="scenario" angle={-45} textAnchor="end" height={100} />
+                  <YAxis />
+                  <Tooltip formatter={(value) => [`${value} วัน`, 'Runway']} />
+                  <Bar dataKey="runway" fill="#3b82f6" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {selectedView === 'actions' && (
+        <Card>
+          <CardHeader>
+            <CardTitle>แผนการแก้ไขและผลกระทบ</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {mitigationActions.map((action, index) => (
+                <div key={index} className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-semibold">{action.action}</h3>
+                    <div className="flex items-center gap-4">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        action.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
+                        action.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {action.difficulty === 'easy' ? 'ง่าย' :
+                         action.difficulty === 'medium' ? 'ปานกลาง' : 'ยาก'}
+                      </span>
+                      <span className="text-lg font-bold text-blue-600">
+                        {action.newRunway} วัน
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600">ผลกระทบ: </span>
+                      <span className={`font-medium ${action.impact > 0 ? 'text-green-600' : 'text-blue-600'}`}>
+                        {action.impact > 0 ? 'ประหยัด' : 'เพิ่มรายได้'} ฿{Math.abs(action.impact).toLocaleString()}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Runway ใหม่: </span>
+                      <span className="font-medium text-blue-600">
+                        +{action.newRunway - currentRunway} วัน
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full" 
+                      style={{ width: `${(action.newRunway / 70) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Critical Actions */}
+      <Card className="border-red-200">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-yellow-600" />
-            แนวทางปรับปรุง Runway
+          <CardTitle className="text-red-700 flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5" />
+            การดำเนินการเร่งด่วน
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-green-50 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-2">เพิ่มรายได้</h4>
-              <ul className="text-sm text-green-700 space-y-1">
-                <li>• เพิ่มการตลาดเพื่อดึงลูกค้าใหม่</li>
-                <li>• ขายบริการเสริมให้ลูกค้าเดิม</li>
-                <li>• ปรับราคาบริการให้เหมาะสม</li>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+              <h4 className="font-semibold text-red-800 mb-2">ระยะสั้น (1-2 สัปดาห์)</h4>
+              <ul className="text-sm text-red-600 space-y-1">
+                <li>• หยุดการตลาดที่ไม่จำเป็น</li>
+                <li>• เจรจาต่อรองค่าเช่า</li>
+                <li>• ปรับแผนการจ้างงาน</li>
               </ul>
             </div>
             
-            <div className="p-4 bg-red-50 rounded-lg">
-              <h4 className="font-semibold text-red-800 mb-2">ลดค่าใช้จ่าย</h4>
-              <ul className="text-sm text-red-700 space-y-1">
-                <li>• ทบทวนค่าเช่าและสัญญาต่างๆ</li>
-                <li>• ลดค่าใช้จ่ายการตลาดที่ไม่จำเป็น</li>
-                <li>• ปรับปรุงประสิทธิภาพพนักงาน</li>
+            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <h4 className="font-semibold text-yellow-800 mb-2">ระยะกลาง (1 เดือน)</h4>
+              <ul className="text-sm text-yellow-600 space-y-1">
+                <li>• เพิ่มบริการใหม่ที่มี ROI สูง</li>
+                <li>• ปรับปรุงประสิทธิภาพ</li>
+                <li>• หาแหล่งเงินทุนเพิ่มเติม</li>
+              </ul>
+            </div>
+            
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">ระยะยาว (3 เดือน)</h4>
+              <ul className="text-sm text-blue-600 space-y-1">
+                <li>• ขยายฐานลูกค้า</li>
+                <li>• พัฒนาบริการใหม่</li>
+                <li>• ปรับโมเดลธุรกิจ</li>
               </ul>
             </div>
           </div>
