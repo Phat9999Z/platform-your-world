@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
@@ -44,7 +45,8 @@ import {
   CreditCard,
   FileText,
   Phone,
-  Settings
+  Settings,
+  Plus
 } from 'lucide-react';
 
 // Define menu items for each system
