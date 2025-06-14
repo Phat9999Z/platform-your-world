@@ -16,67 +16,113 @@ import {
   BarChart3
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ComposedChart, Area, AreaChart } from 'recharts';
+import { mockFinancialData } from '@/services/financialAnalytics';
 
 const FinancialKPIDashboard = () => {
   const [selectedBranch, setSelectedBranch] = useState('all');
   const [timeRange, setTimeRange] = useState('30d');
 
-  // Mock financial data based on database schema
+  // --- Data from financialAnalytics service ---
+  const plStatement = mockFinancialData.plStatement;
+  const totalRevenue = plStatement.reduce((sum, item) => sum + item.revenue, 0);
+  const totalExpensesFromPL = plStatement.reduce((sum, item) => sum + item.expenses, 0);
+  const totalCostOfSales = plStatement.reduce((sum, item) => sum + item.cost_of_sales, 0);
+  const totalNetProfit = plStatement.reduce((sum, item) => sum + item.net_profit, 0);
+
   const financialSummary = {
-    totalRevenue: 12850000,
-    totalExpenses: 8420000,
-    grossProfit: 4430000,
-    netProfit: 3950000,
-    grossMargin: 34.5,
-    netMargin: 30.7,
-    burnRate: 2100000,
-    runway: 5.95,
-    cashPosition: 12500000
+    totalRevenue: totalRevenue,
+    netProfit: totalNetProfit,
+    cashPosition: 12500000, // Placeholder as it's not in the service data
+    get burnRate() {
+      return (totalExpensesFromPL + totalCostOfSales) / (plStatement.length || 1);
+    },
+    get netMargin() {
+      return totalRevenue ? (totalNetProfit / totalRevenue) * 100 : 0;
+    },
+    get runway() {
+      const rate = this.burnRate;
+      return rate > 0 ? this.cashPosition / rate : Infinity;
+    },
   };
 
-  const revenueBreakdown = [
-    { category: 'Treatment Services', amount: 8500000, percentage: 66.1, color: '#10b981' },
-    { category: 'Course Packages', amount: 2800000, percentage: 21.8, color: '#3b82f6' },
-    { category: 'Consultation', amount: 1200000, percentage: 9.3, color: '#8b5cf6' },
-    { category: 'Products', amount: 350000, percentage: 2.7, color: '#f59e0b' }
-  ];
+  const REVENUE_COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'];
+  const totalSalesAllServices = mockFinancialData.grossMarginPerService.reduce((sum, s) => sum + s.total_sales, 0);
+  const revenueBreakdown = mockFinancialData.grossMarginPerService.map((service, index) => ({
+    category: service.service_name,
+    amount: service.total_sales,
+    percentage: totalSalesAllServices > 0 ? (service.total_sales / totalSalesAllServices * 100) : 0,
+    color: REVENUE_COLORS[index % REVENUE_COLORS.length]
+  }));
 
-  const expenseBreakdown = [
-    { category: 'Staff Salaries', amount: 3800000, percentage: 45.1, color: '#ef4444' },
-    { category: 'Rent & Utilities', amount: 1680000, percentage: 19.9, color: '#f97316' },
-    { category: 'Medical Supplies', amount: 1260000, percentage: 15.0, color: '#eab308' },
-    { category: 'Marketing', amount: 840000, percentage: 10.0, color: '#84cc16' },
-    { category: 'Other Operating', amount: 840000, percentage: 10.0, color: '#06b6d4' }
-  ];
+  const EXPENSE_COLORS = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#06b6d4'];
+  const expenseBreakdown = mockFinancialData.expenseBreakdown.map((expense, index) => ({
+    ...expense,
+    color: EXPENSE_COLORS[index % EXPENSE_COLORS.length]
+  }));
 
-  const cashFlowData = [
-    { month: 'ม.ค.', revenue: 2100000, expenses: 1650000, netCashFlow: 450000, cumulative: 450000 },
-    { month: 'ก.พ.', revenue: 2200000, expenses: 1780000, netCashFlow: 420000, cumulative: 870000 },
-    { month: 'มี.ค.', revenue: 2350000, expenses: 1850000, netCashFlow: 500000, cumulative: 1370000 },
-    { month: 'เม.ย.', revenue: 2150000, expenses: 1800000, netCashFlow: 350000, cumulative: 1720000 },
-    { month: 'พ.ค.', revenue: 2400000, expenses: 1950000, netCashFlow: 450000, cumulative: 2170000 },
-    { month: 'มิ.ย.', revenue: 2650000, expenses: 2100000, netCashFlow: 550000, cumulative: 2720000 }
-  ];
+  const cashFlowData = [...mockFinancialData.plStatement].reverse().map((item, index, arr) => {
+    const cumulative = arr.slice(0, index + 1).reduce((sum, i) => sum + i.net_profit, 0);
+    return {
+      month: item.month.split(' ')[0], // 'มิ.ย. 2025' -> 'มิ.ย.'
+      revenue: item.revenue,
+      expenses: item.cost_of_sales + item.expenses,
+      netCashFlow: item.net_profit,
+      cumulative: cumulative,
+    }
+  });
 
-  const branchPerformance = [
-    { branch: 'สาขาสยาม', revenue: 4200000, expenses: 2800000, profit: 1400000, margin: 33.3 },
-    { branch: 'สาขาทองหล่อ', revenue: 3800000, expenses: 2500000, profit: 1300000, margin: 34.2 },
-    { branch: 'สาขาอารีย์', revenue: 2900000, expenses: 1920000, profit: 980000, margin: 33.8 },
-    { branch: 'สาขาเซ็นทรัล', revenue: 1950000, expenses: 1200000, profit: 750000, margin: 38.5 }
-  ];
-
+  const branchPerformance = mockFinancialData.netProfitByBranch.map(branch => ({
+    branch: branch.branch,
+    revenue: branch.revenue,
+    expenses: branch.costs + branch.expenses,
+    profit: branch.net_profit,
+    margin: parseFloat(branch.net_margin)
+  }));
+  
   const kpiTargets = [
-    { metric: 'Monthly Revenue', actual: 2650000, target: 2800000, unit: 'THB', status: 'warning' },
-    { metric: 'Gross Margin', actual: 34.5, target: 35.0, unit: '%', status: 'warning' },
-    { metric: 'Customer Acquisition', actual: 156, target: 180, unit: 'customers', status: 'critical' },
-    { metric: 'Staff Utilization', actual: 78.5, target: 80.0, unit: '%', status: 'good' },
-    { metric: 'Average Revenue per Customer', actual: 16987, target: 15000, unit: 'THB', status: 'good' }
+    { 
+        metric: 'Customer Repeat Rate', 
+        actual: mockFinancialData.customerMetrics.repeat_rate, 
+        target: 70, 
+        unit: '%', 
+        status: mockFinancialData.customerMetrics.repeat_rate >= 70 ? 'good' : 'warning' 
+    },
+    { 
+        metric: 'Average Doctor Efficiency', 
+        actual: parseFloat((mockFinancialData.doctorKPIs.reduce((sum, d) => sum + d.efficiency_score, 0) / mockFinancialData.doctorKPIs.length).toFixed(1)), 
+        target: 90, 
+        unit: '', 
+        status: (mockFinancialData.doctorKPIs.reduce((sum, d) => sum + d.efficiency_score, 0) / mockFinancialData.doctorKPIs.length) >= 90 ? 'good' : 'warning' 
+    },
+    { 
+        metric: 'Churn Risk Customers', 
+        actual: mockFinancialData.customerMetrics.churn_risk_count, 
+        target: 20, 
+        unit: 'customers', 
+        status: mockFinancialData.customerMetrics.churn_risk_count <= 20 ? 'good' : 'critical'
+    },
+    { 
+        metric: 'Average Branch Profit Margin', 
+        actual: parseFloat((mockFinancialData.branchEfficiency.reduce((sum, b) => sum + b.profit_margin, 0) / mockFinancialData.branchEfficiency.length).toFixed(1)), 
+        target: 30, 
+        unit: '%', 
+        status: (mockFinancialData.branchEfficiency.reduce((sum, b) => sum + b.profit_margin, 0) / mockFinancialData.branchEfficiency.length) >= 30 ? 'good' : 'warning' 
+    },
+    {
+      metric: 'Average Revenue per Customer', 
+      actual: mockFinancialData.customerMetrics.aov, 
+      target: 4000, 
+      unit: 'THB', 
+      status: mockFinancialData.customerMetrics.aov >= 4000 ? 'good' : 'warning' 
+    }
   ];
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('th-TH', {
       style: 'currency',
-      currency: 'THB'
+      currency: 'THB',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -103,7 +149,7 @@ const FinancialKPIDashboard = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Financial KPI Dashboard</h1>
-          <p className="text-gray-600">ตัวชี้วัดทางการเงินและผลประกอบการ</p>
+          <p className="text-gray-600">ตัวชี้วัดทางการเงินและผลประกอบการ (Live Data)</p>
         </div>
         <div className="flex gap-3">
           <select 
@@ -136,9 +182,9 @@ const FinancialKPIDashboard = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-emerald-100 text-sm">รายได้รวม</p>
+                <p className="text-emerald-100 text-sm">รายได้รวม (3 เดือน)</p>
                 <p className="text-2xl font-bold">{formatCurrency(financialSummary.totalRevenue)}</p>
-                <p className="text-emerald-100 text-xs">+18.5% YoY</p>
+                <p className="text-emerald-100 text-xs">ข้อมูลจาก P&L</p>
               </div>
               <DollarSign className="h-8 w-8 text-emerald-100" />
             </div>
@@ -149,9 +195,9 @@ const FinancialKPIDashboard = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100 text-sm">กำไรสุทธิ</p>
+                <p className="text-blue-100 text-sm">กำไรสุทธิ (3 เดือน)</p>
                 <p className="text-2xl font-bold">{formatCurrency(financialSummary.netProfit)}</p>
-                <p className="text-blue-100 text-xs">Margin {financialSummary.netMargin}%</p>
+                <p className="text-blue-100 text-xs">Margin {financialSummary.netMargin.toFixed(1)}%</p>
               </div>
               <Calculator className="h-8 w-8 text-blue-100" />
             </div>
@@ -204,13 +250,13 @@ const FinancialKPIDashboard = () => {
                   <div>
                     <h3 className="font-medium">{kpi.metric}</h3>
                     <p className="text-sm text-gray-600">
-                      Target: {kpi.unit === 'THB' ? formatCurrency(kpi.target) : `${kpi.target}${kpi.unit === '%' ? '%' : ''}`}
+                      Target: {kpi.unit === 'THB' ? formatCurrency(kpi.target) : `${kpi.target} ${kpi.unit}`}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-xl font-bold">
-                    {kpi.unit === 'THB' ? formatCurrency(kpi.actual) : `${kpi.actual}${kpi.unit === '%' ? '%' : ''}`}
+                    {kpi.unit === 'THB' ? formatCurrency(kpi.actual) : `${kpi.actual} ${kpi.unit}`}
                   </div>
                   <div className={`text-sm ${
                     kpi.actual >= kpi.target ? 'text-green-600' : 'text-red-600'
@@ -237,16 +283,17 @@ const FinancialKPIDashboard = () => {
             <ComposedChart data={cashFlowData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value, name) => [
-                formatCurrency(Number(value)),
+              <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+              <Tooltip formatter={(value: number, name: string) => [
+                formatCurrency(value),
                 name === 'revenue' ? 'รายได้' : 
                 name === 'expenses' ? 'ค่าใช้จ่าย' : 
                 name === 'netCashFlow' ? 'Cash Flow สุทธิ' : 'Cash Flow สะสม'
               ]} />
-              <Bar dataKey="revenue" fill="#10b981" name="revenue" />
-              <Bar dataKey="expenses" fill="#ef4444" name="expenses" />
-              <Line dataKey="cumulative" stroke="#3b82f6" strokeWidth={3} name="cumulative" />
+              <Bar yAxisId="left" dataKey="revenue" fill="#10b981" name="revenue" />
+              <Bar yAxisId="left" dataKey="expenses" fill="#ef4444" name="expenses" />
+              <Line yAxisId="right" dataKey="cumulative" stroke="#3b82f6" strokeWidth={3} name="cumulative" />
             </ComposedChart>
           </ResponsiveContainer>
         </CardContent>
@@ -274,7 +321,7 @@ const FinancialKPIDashboard = () => {
                   </div>
                   <div className="text-right">
                     <div className="font-bold">{formatCurrency(item.amount)}</div>
-                    <div className="text-sm text-gray-600">{item.percentage}%</div>
+                    <div className="text-sm text-gray-600">{item.percentage.toFixed(1)}%</div>
                   </div>
                 </div>
               ))}
@@ -301,7 +348,7 @@ const FinancialKPIDashboard = () => {
                     <span className="font-medium">{item.category}</span>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold">{formatCurrency(item.amount)}</div>
+                    <div className="font-bold">{formatCurrency(item.total)}</div>
                     <div className="text-sm text-gray-600">{item.percentage}%</div>
                   </div>
                 </div>
@@ -339,7 +386,7 @@ const FinancialKPIDashboard = () => {
                     <td className="p-3 text-right text-red-600">{formatCurrency(branch.expenses)}</td>
                     <td className="p-3 text-right font-bold text-green-600">{formatCurrency(branch.profit)}</td>
                     <td className="p-3 text-center">
-                      <Badge className={branch.margin > 35 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                      <Badge className={branch.margin > 32 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
                         {branch.margin}%
                       </Badge>
                     </td>

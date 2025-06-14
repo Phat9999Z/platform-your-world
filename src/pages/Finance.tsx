@@ -21,7 +21,7 @@ import ExpenseManagementSection from '@/components/finance/ExpenseManagementSect
 import TaxInvoiceSection from '@/components/finance/TaxInvoiceSection';
 import FinanceAlertSystem from '@/components/finance/FinanceAlertSystem';
 import FinancialStatements from '@/components/finance/FinancialStatements';
-import FinancialKPIDashboard from '@/components/finance/FinancialKPIDashboard';
+import FinancialKPIDashboard from '@/components/analytics/FinancialKPIDashboard';
 import CreateTransactionForm from '@/components/finance/CreateTransactionForm';
 import { useLocation } from 'react-router-dom';
 
