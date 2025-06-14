@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from '@/pages/Index';
+import MainMenu from '@/pages/MainMenu';
 import Dashboard from '@/pages/Dashboard';
 import Appointments from '@/pages/Appointments';
 import HrDashboard from '@/pages/HRDashboard';
@@ -9,6 +10,7 @@ import Branch from '@/pages/Branch';
 import Feedback from '@/pages/Feedback';
 import Alerts from '@/pages/Alerts';
 import Finance from '@/pages/Finance';
+import StaffMenu from '@/pages/StaffMenu';
 import StaffPatients from '@/pages/StaffPatients';
 import StaffAppointments from '@/pages/StaffAppointments';
 import StaffTreatments from '@/pages/StaffTreatments';
@@ -26,31 +28,162 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-          <SidebarProvider>
-            <div className="flex min-h-screen">
-              <AppSidebar />
-              <main className="flex-1 overflow-auto">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/dashboard/*" element={<Dashboard />} />
-                  <Route path="/appointments/*" element={<Appointments />} />
-                  <Route path="/hr-dashboard/*" element={<HrDashboard />} />
-                  <Route path="/branch/*" element={<Branch />} />
-                  <Route path="/feedback/*" element={<Feedback />} />
-                  <Route path="/alerts/*" element={<Alerts />} />
-                  <Route path="/finance/*" element={<Finance />} />
-                  <Route path="/staff/patients/*" element={<StaffPatients />} />
-                  <Route path="/staff/appointments/*" element={<StaffAppointments />} />
-                  <Route path="/staff/treatments/*" element={<StaffTreatments />} />
-                  <Route path="/staff/invoicing/*" element={<StaffInvoicing />} />
-                  <Route path="/staff/followup/*" element={<StaffFollowup />} />
-                  <Route path="/staff/chat/*" element={<StaffChat />} />
-                  <Route path="/analytics/*" element={<Analytics />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-            </div>
-          </SidebarProvider>
+          <Routes>
+            {/* Login/Index Route */}
+            <Route path="/login" element={<Index />} />
+            
+            {/* Main Menu Routes */}
+            <Route path="/" element={<MainMenu />} />
+            <Route path="/main-menu" element={<MainMenu />} />
+            <Route path="/staff-menu" element={<StaffMenu />} />
+            
+            {/* Admin/Executive Routes with Sidebar */}
+            <Route path="/dashboard/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Dashboard />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/appointments/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Appointments />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/hr-dashboard/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <HrDashboard />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/branch/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Branch />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/feedback/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Feedback />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/alerts/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Alerts />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/finance/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Finance />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/analytics/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Analytics />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            
+            {/* Staff Routes with Sidebar */}
+            <Route path="/staff/patients/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffPatients />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/appointments/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffAppointments />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/treatments/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffTreatments />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/invoicing/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffInvoicing />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/followup/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffFollowup />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/chat/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffChat />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </AuthProvider>
     </BrowserRouter>
