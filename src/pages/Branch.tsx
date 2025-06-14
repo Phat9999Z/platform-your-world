@@ -7,6 +7,11 @@ import BranchPerformance from '@/components/branch/BranchPerformance';
 import BranchStaff from '@/components/branch/BranchStaff';
 import BranchSettings from '@/components/branch/BranchSettings';
 import BranchTargets from '@/components/branch/BranchTargets';
+import BranchNetProfit from '@/components/branch/BranchNetProfit';
+import BranchExpenses from '@/components/branch/BranchExpenses';
+import BranchProductivity from '@/components/branch/BranchProductivity';
+import BranchQueueAvg from '@/components/branch/BranchQueueAvg';
+import BranchRecommendations from '@/components/branch/BranchRecommendations';
 
 const Branch = () => {
   return (
@@ -18,11 +23,11 @@ const Branch = () => {
         <Route path="staff" element={<BranchStaff />} />
         <Route path="settings" element={<BranchSettings />} />
         <Route path="targets" element={<BranchTargets />} />
-        <Route path="net-profit" element={<div className="p-8 text-center text-gray-600">กำไรสุทธิสาขา - กำลังพัฒนา</div>} />
-        <Route path="expenses" element={<div className="p-8 text-center text-gray-600">ต้นทุน / รายจ่ายสาขา - กำลังพัฒนา</div>} />
-        <Route path="productivity" element={<div className="p-8 text-center text-gray-600">Productivity สาขา - กำลังพัฒนา</div>} />
-        <Route path="queue-avg" element={<div className="p-8 text-center text-gray-600">คิวเฉลี่ยต่อวัน - กำลังพัฒนา</div>} />
-        <Route path="recommendations" element={<div className="p-8 text-center text-gray-600">คำแนะนำ: ปิด / เปิดสาขาใหม่ - กำลังพัฒนา</div>} />
+        <Route path="net-profit" element={<BranchNetProfit />} />
+        <Route path="expenses" element={<BranchExpenses />} />
+        <Route path="productivity" element={<BranchProductivity />} />
+        <Route path="queue-avg" element={<BranchQueueAvg />} />
+        <Route path="recommendations" element={<BranchRecommendations />} />
       </Routes>
     </div>
   );

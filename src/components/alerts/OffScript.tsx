@@ -1,56 +1,69 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageCircle, AlertTriangle, TrendingUp, HelpCircle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Button } from '@/components/ui/button';
+import { AlertTriangle, MessageSquare, Clock, TrendingUp, Users } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 const offScriptData = [
-  { time: '08:00', totalQuestions: 45, offScript: 8, percentage: 17.8 },
-  { time: '10:00', totalQuestions: 67, offScript: 15, percentage: 22.4 },
-  { time: '12:00', totalQuestions: 89, offScript: 25, percentage: 28.1 },
-  { time: '14:00', totalQuestions: 78, offScript: 18, percentage: 23.1 },
-  { time: '16:00', totalQuestions: 56, offScript: 12, percentage: 21.4 },
-  { time: '18:00', totalQuestions: 34, offScript: 6, percentage: 17.6 }
+  { time: '08:00', count: 5, trend: 'up' },
+  { time: '10:00', count: 8, trend: 'down' },
+  { time: '12:00', count: 3, trend: 'up' },
+  { time: '14:00', count: 7, trend: 'stable' },
+  { time: '16:00', count: 2, trend: 'down' },
+  { time: '18:00', count: 6, trend: 'up' }
 ];
 
-const questionCategories = [
-  { category: 'ราคาการรักษา', count: 45, percentage: 35, color: '#3b82f6' },
-  { category: 'ขั้นตอนการจอง', count: 28, percentage: 22, color: '#10b981' },
-  { category: 'ข้อมูลแพทย์', count: 20, percentage: 16, color: '#f59e0b' },
-  { category: 'เวลาทำการ', count: 18, percentage: 14, color: '#ef4444' },
-  { category: 'อื่นๆ', count: 17, percentage: 13, color: '#8b5cf6' }
-];
-
-const commonOffScriptQuestions = [
-  { question: 'มีประกันสังคมใช้ได้ไหม?', frequency: 23, category: 'การเงิน' },
-  { question: 'ขับรถมาทำตาได้ไหม?', frequency: 18, category: 'การรักษา' },
-  { question: 'อายุเท่าไหร่ถึงจะผ่าตัดได้?', frequency: 15, category: 'การรักษา' },
-  { question: 'จอดรถที่ไหน?', frequency: 12, category: 'สถานที่' },
-  { question: 'มีส่วนลดไหม?', frequency: 11, category: 'การเงิน' },
-  { question: 'รอนานไหม?', frequency: 9, category: 'เวลา' }
+const categoryBreakdown = [
+  { category: 'สอบถามทั่วไป', count: 25, color: '#ef4444' },
+  { category: 'ปรึกษาปัญหา', count: 35, color: '#f97316' },
+  { category: 'ร้องเรียน', count: 15, color: '#eab308' },
+  { category: 'อื่นๆ', count: 25, color: '#84cc16' }
 ];
 
 const OffScript = () => {
-  const totalQuestions = offScriptData.reduce((sum, item) => sum + item.totalQuestions, 0);
-  const totalOffScript = offScriptData.reduce((sum, item) => sum + item.offScript, 0);
-  const avgOffScriptRate = (totalOffScript / totalQuestions * 100);
+  const totalOffScript = offScriptData.reduce((sum, item) => sum + item.count, 0);
+  const avgOffScript = totalOffScript / offScriptData.length;
 
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">คำถามนอกสคริปต์</h1>
-        <p className="text-gray-600 mt-1">วิเคราะห์คำถามที่ระบบ AI ตอบไม่ได้และต้องส่งต่อเจ้าหน้าที่</p>
+        <h1 className="text-3xl font-bold text-gray-900">Off Script</h1>
+        <p className="text-gray-600 mt-1">การวิเคราะห์ข้อความนอกสคริปต์</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="bg-gradient-to-r from-red-500 to-red-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-red-100">ทั้งหมด</p>
+                <p className="text-2xl font-bold">{totalOffScript}</p>
+              </div>
+              <AlertTriangle className="h-8 w-8 text-red-200" />
+            </div>
+          </CardContent>
+        </Card>
+        
         <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-orange-100">คำถามนอกสคริปต์</p>
-                <p className="text-2xl font-bold">{totalOffScript}</p>
+                <p className="text-orange-100">เฉลี่ยต่อชั่วโมง</p>
+                <p className="text-2xl font-bold">{avgOffScript.toFixed(1)}</p>
               </div>
-              <HelpCircle className="h-8 w-8 text-orange-200" />
+              <Clock className="h-8 w-8 text-orange-200" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-yellow-100">แนวโน้ม</p>
+                <p className="text-2xl font-bold">↗</p>
+              </div>
+              <TrendingUp className="h-8 w-8 text-yellow-200" />
             </div>
           </CardContent>
         </Card>
@@ -59,34 +72,10 @@ const OffScript = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100">คำถามทั้งหมด</p>
-                <p className="text-2xl font-bold">{totalQuestions}</p>
+                <p className="text-blue-100">ผู้ใช้งาน</p>
+                <p className="text-2xl font-bold">36</p>
               </div>
-              <MessageCircle className="h-8 w-8 text-blue-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-r from-red-500 to-red-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-red-100">อัตราเฉลี่ย</p>
-                <p className="text-2xl font-bold">{avgOffScriptRate.toFixed(1)}%</p>
-              </div>
-              <AlertTriangle className="h-8 w-8 text-red-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100">แนวโน้ม</p>
-                <p className="text-2xl font-bold">-2.3%</p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-green-200" />
+              <Users className="h-8 w-8 text-blue-200" />
             </div>
           </CardContent>
         </Card>
@@ -95,45 +84,34 @@ const OffScript = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>คำถามนอกสคริปต์ตามช่วงเวลา</CardTitle>
+            <CardTitle>Off Script ตามช่วงเวลา</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={offScriptData}>
+              <LineChart data={offScriptData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="totalQuestions" fill="#d1d5db" name="คำถามทั้งหมด" />
-                <Bar dataKey="offScript" fill="#f59e0b" name="นอกสคริปต์" />
-              </BarChart>
+                <Line type="monotone" dataKey="count" stroke="#ef4444" strokeWidth={3} name="จำนวน" />
+              </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>หมวดหมู่คำถามนอกสคริปต์</CardTitle>
+            <CardTitle>Off Script ตามประเภท</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={questionCategories}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ category, percentage }) => `${category}: ${percentage}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="count"
-                >
-                  {questionCategories.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
+              <BarChart data={categoryBreakdown}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="category" />
+                <YAxis />
                 <Tooltip />
-              </PieChart>
+                <Bar dataKey="count" fill="#f59e0b" name="จำนวน" />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
@@ -141,32 +119,7 @@ const OffScript = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>คำถามยอดนิยมที่ต้องปรับปรุงสคริปต์</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {commonOffScriptQuestions.map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div className="flex-1">
-                  <p className="font-medium">{item.question}</p>
-                  <p className="text-sm text-gray-600">หมวดหมู่: {item.category}</p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="text-center">
-                    <p className="text-sm text-gray-600">ความถี่</p>
-                    <p className="text-lg font-semibold">{item.frequency}</p>
-                  </div>
-                  <Button size="sm" variant="outline">เพิ่มในสคริปต์</Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>สถิติรายละเอียด</CardTitle>
+          <CardTitle>รายละเอียด Off Script</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -174,9 +127,8 @@ const OffScript = () => {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th className="px-6 py-3">ช่วงเวลา</th>
-                  <th className="px-6 py-3">คำถามทั้งหมด</th>
-                  <th className="px-6 py-3">นอกสคริปต์</th>
-                  <th className="px-6 py-3">อัตราส่วน</th>
+                  <th className="px-6 py-3">จำนวน</th>
+                  <th className="px-6 py-3">แนวโน้ม</th>
                   <th className="px-6 py-3">สถานะ</th>
                 </tr>
               </thead>
@@ -184,16 +136,13 @@ const OffScript = () => {
                 {offScriptData.map((item, index) => (
                   <tr key={index} className="bg-white border-b">
                     <td className="px-6 py-4 font-medium">{item.time}</td>
-                    <td className="px-6 py-4">{item.totalQuestions}</td>
-                    <td className="px-6 py-4">{item.offScript}</td>
-                    <td className="px-6 py-4">{item.percentage.toFixed(1)}%</td>
+                    <td className="px-6 py-4">{item.count}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        item.percentage < 20 ? 'bg-green-100 text-green-800' : 
-                        item.percentage < 25 ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {item.percentage < 20 ? 'ดี' : item.percentage < 25 ? 'ปานกลาง' : 'ต้องปรับปรุง'}
+                      <TrendingUp className={`h-4 w-4 ${item.trend === 'up' ? 'text-green-500' : item.trend === 'down' ? 'text-red-500' : 'text-gray-500'}`} />
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 rounded text-xs ${item.count > 5 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                        {item.count > 5 ? 'สูง' : 'ปกติ'}
                       </span>
                     </td>
                   </tr>
