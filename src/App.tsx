@@ -7,7 +7,14 @@ import Appointments from '@/pages/Appointments';
 import HrDashboard from '@/pages/HRDashboard';
 import Branch from '@/pages/Branch';
 import Feedback from '@/pages/Feedback';
+import Alerts from '@/pages/Alerts';
 import Finance from '@/pages/Finance';
+import StaffPatients from '@/pages/StaffPatients';
+import StaffAppointments from '@/pages/StaffAppointments';
+import StaffTreatments from '@/pages/StaffTreatments';
+import StaffInvoicing from '@/pages/StaffInvoicing';
+import StaffFollowup from '@/pages/StaffFollowup';
+import StaffChat from '@/pages/StaffChat';
 import NotFound from '@/pages/NotFound';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -30,14 +37,14 @@ function App() {
                   <Route path="/hr-dashboard/*" element={<HrDashboard />} />
                   <Route path="/branch/*" element={<Branch />} />
                   <Route path="/feedback/*" element={<Feedback />} />
-                  <Route path="/alerts/*" element={<NotFound />} />
+                  <Route path="/alerts/*" element={<Alerts />} />
                   <Route path="/finance/*" element={<Finance />} />
-                  <Route path="/staff/patients/*" element={<NotFound />} />
-                  <Route path="/staff/appointments/*" element={<NotFound />} />
-                  <Route path="/staff/treatments/*" element={<NotFound />} />
-                  <Route path="/staff/invoicing/*" element={<NotFound />} />
-                  <Route path="/staff/followup/*" element={<NotFound />} />
-                  <Route path="/staff/chat/*" element={<NotFound />} />
+                  <Route path="/staff/patients/*" element={<StaffPatients />} />
+                  <Route path="/staff/appointments/*" element={<StaffAppointments />} />
+                  <Route path="/staff/treatments/*" element={<StaffTreatments />} />
+                  <Route path="/staff/invoicing/*" element={<StaffInvoicing />} />
+                  <Route path="/staff/followup/*" element={<StaffFollowup />} />
+                  <Route path="/staff/chat/*" element={<StaffChat />} />
                   <Route path="/analytics/*" element={<Analytics />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
