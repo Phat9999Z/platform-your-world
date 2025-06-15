@@ -9,7 +9,7 @@ import { Eye, Edit, Plus, Search, Star, Heart } from 'lucide-react';
 
 const StaffProductCatalog = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   
   const [products] = useState([
     {
@@ -62,7 +62,7 @@ const StaffProductCatalog = () => {
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.brand.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = !categoryFilter || product.category === categoryFilter;
+    const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
@@ -99,7 +99,7 @@ const StaffProductCatalog = () => {
                 <SelectValue placeholder="เลือกหมวดหมู่" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">ทุกหมวดหมู่</SelectItem>
+                <SelectItem value="all">ทุกหมวดหมู่</SelectItem>
                 {categories.map(category => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
                 ))}
