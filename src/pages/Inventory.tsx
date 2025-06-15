@@ -6,6 +6,9 @@ import InventoryList from '@/components/inventory/InventoryList';
 import InventoryCreate from '@/components/inventory/InventoryCreate';
 import InventoryAnalytics from '@/components/inventory/InventoryAnalytics';
 import InventoryCategories from '@/components/inventory/InventoryCategories';
+import GlassesLensesStock from '@/components/inventory/GlassesLensesStock';
+import PreOrdersTracking from '@/components/inventory/PreOrdersTracking';
+import VendorTracking from '@/components/inventory/VendorTracking';
 
 const Inventory = () => {
   return (
@@ -18,10 +21,18 @@ const Inventory = () => {
         
         <Routes>
           <Route index element={<InventoryDashboard />} />
+          <Route path="glasses-lenses" element={<GlassesLensesStock />} />
+          <Route path="low-stock" element={<div>Coming Soon: สินค้าใกล้หมด</div>} />
+          <Route path="pre-orders" element={<PreOrdersTracking />} />
+          <Route path="claims" element={<div>Coming Soon: เคลมกรอบ / เคลมเลนส์</div>} />
+          <Route path="withdrawal-log" element={<div>Coming Soon: Log การเบิก</div>} />
+          <Route path="vendor-tracking" element={<VendorTracking />} />
+          <Route path="products" element={<InventoryList />} />
           <Route path="list" element={<InventoryList />} />
           <Route path="create" element={<InventoryCreate />} />
           <Route path="analytics" element={<InventoryAnalytics />} />
           <Route path="categories" element={<InventoryCategories />} />
+          <Route path="movements" element={<div>Coming Soon: การเคลื่อนไหวสต็อก</div>} />
         </Routes>
       </div>
     </div>

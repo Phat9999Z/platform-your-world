@@ -27,13 +27,17 @@ import FinancialStatements from '@/components/finance/FinancialStatements';
 import FinancialKPIDashboard from '@/components/analytics/FinancialKPIDashboard';
 import CreateTransactionForm from '@/components/finance/CreateTransactionForm';
 
-// Import new components
+// Import existing new components
 import BurnRunway from '@/components/finance/BurnRunway';
 import OwnerWithdrawal from '@/components/finance/OwnerWithdrawal';
 import LensClaims from '@/components/finance/LensClaims';
 import SalaryPayment from '@/components/finance/SalaryPayment';
 import RevenueBreakdown from '@/components/finance/RevenueBreakdown';
 import OutstandingDebt from '@/components/finance/OutstandingDebt';
+
+// Import new revenue components
+import TotalRevenue from '@/components/finance/TotalRevenue';
+import DoctorRevenue from '@/components/finance/DoctorRevenue';
 
 const Finance = () => {
   const [showCreateTransaction, setShowCreateTransaction] = useState(false);
@@ -61,6 +65,13 @@ const Finance = () => {
   return (
     <div className="p-6 space-y-6">
       <Routes>
+        <Route path="/total-revenue" element={<TotalRevenue />} />
+        <Route path="/doctor-revenue" element={<DoctorRevenue />} />
+        <Route path="/service-revenue" element={<div>Coming Soon: รายได้ต่อบริการ</div>} />
+        <Route path="/course-revenue" element={<div>Coming Soon: รายได้จากคอร์ส</div>} />
+        <Route path="/channel-revenue" element={<div>Coming Soon: รายได้ต่อช่อง</div>} />
+        <Route path="/branch-revenue" element={<div>Coming Soon: รายได้แยกสาขา</div>} />
+        <Route path="/popular-promotions" element={<div>Coming Soon: โปรที่ลูกค้าใช้เยอะสุด</div>} />
         <Route path="/burn-runway" element={<BurnRunway />} />
         <Route path="/owner-withdrawal" element={<OwnerWithdrawal />} />
         <Route path="/lens-claims" element={<LensClaims />} />

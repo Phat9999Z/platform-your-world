@@ -1,4 +1,3 @@
-
 import {
   Eye,
   Sparkles,
@@ -49,7 +48,18 @@ import {
   CreditCardIcon,
   FileBarChart,
   FileX,
-  History
+  History,
+  Truck,
+  ShoppingCart,
+  Box,
+  RefreshCw,
+  UserCircle,
+  MapPin,
+  Gift,
+  Repeat,
+  AlertOctagon,
+  Zap as ZapIcon,
+  TrendingDown
 } from 'lucide-react';
 
 export interface MenuItem {
@@ -84,17 +94,26 @@ export const systemMenus = {
   ],
   expenses: [
     { icon: BarChart3, label: 'ภาพรวมรายจ่าย', path: '/expenses' },
+    { icon: Calendar, label: 'ค่าใช้จ่ายรายเดือน', path: '/expenses/monthly' },
+    { icon: Repeat, label: 'รายจ่าย recurring', path: '/expenses/recurring' },
+    { icon: Truck, label: 'จ่าย vendor ไหน', path: '/expenses/vendors' },
+    { icon: FileX, label: 'เคลมที่ยังไม่ได้คืนเงิน', path: '/expenses/pending-claims' },
+    { icon: Banknote, label: 'จ่ายเงินเดือน', path: '/expenses/payroll' },
+    { icon: AlertOctagon, label: 'รายจ่ายผิดปกติ', path: '/expenses/anomalies' },
+    { icon: BarChart3, label: 'รายจ่ายเปรียบเทียบ', path: '/expenses/comparison' },
     { icon: Receipt, label: 'รายการค่าใช้จ่าย', path: '/expenses/list' },
-    { icon: Plus, label: 'บันทึกรายจ่าย', path: '/expenses/create' },
-    { icon: TrendingUp, label: 'วิเคราะห์การใช้จ่าย', path: '/expenses/analytics' },
-    { icon: Tag, label: 'จัดการหมวดหมู่', path: '/expenses/categories' }
+    { icon: Plus, label: 'บันทึกรายจ่าย', path: '/expenses/create' }
   ],
   inventory: [
     { icon: BarChart3, label: 'ภาพรวมสต็อก', path: '/inventory' },
+    { icon: Eye, label: 'คงคลังแว่น / เลนส์', path: '/inventory/glasses-lenses' },
+    { icon: AlertTriangle, label: 'สินค้าใกล้หมด', path: '/inventory/low-stock' },
+    { icon: Clock, label: 'Pre-order ที่รอประกอบ', path: '/inventory/pre-orders' },
+    { icon: Shield, label: 'เคลมกรอบ / เคลมเลนส์', path: '/inventory/claims' },
+    { icon: ClipboardList, label: 'Log การเบิก', path: '/inventory/withdrawal-log' },
+    { icon: Truck, label: 'Vendor ติดตาม', path: '/inventory/vendor-tracking' },
     { icon: Package, label: 'รายการสินค้า', path: '/inventory/products' },
-    { icon: TrendingUp, label: 'การเคลื่อนไหวสต็อก', path: '/inventory/movements' },
-    { icon: AlertTriangle, label: 'แจ้งเตือนสต็อกต่ำ', path: '/inventory/alerts' },
-    { icon: FileText, label: 'รายงานสต็อก', path: '/inventory/reports' }
+    { icon: TrendingUp, label: 'การเคลื่อนไหวสต็อก', path: '/inventory/movements' }
   ],
   analytics: [
     { icon: BarChart3, label: 'Analytics Overview', path: '/analytics' },
@@ -149,15 +168,17 @@ export const systemMenus = {
   ],
   finance: [
     { icon: DollarSign, label: 'ภาพรวมการเงิน', path: '/finance' },
-    { icon: Activity, label: 'Burn Rate / Runway', path: '/finance/burn-runway' },
+    { icon: BarChart3, label: 'รายได้รวม', path: '/finance/total-revenue' },
+    { icon: UserCircle, label: 'รายได้ต่อหมอ', path: '/finance/doctor-revenue' },
+    { icon: Activity, label: 'รายได้ต่อบริการ', path: '/finance/service-revenue' },
+    { icon: Package, label: 'รายได้จากคอร์ส', path: '/finance/course-revenue' },
+    { icon: MapPin, label: 'รายได้ต่อช่อง', path: '/finance/channel-revenue' },
+    { icon: Building, label: 'รายได้แยกสาขา', path: '/finance/branch-revenue' },
+    { icon: Gift, label: 'โปรที่ลูกค้าใช้เยอะสุด', path: '/finance/popular-promotions' },
     { icon: HandCoins, label: 'Owner Withdrawal', path: '/finance/owner-withdrawal' },
     { icon: Eye, label: 'เคลมเลนส์', path: '/finance/lens-claims' },
     { icon: Banknote, label: 'จ่ายเงินเดือน', path: '/finance/salary-payment' },
-    { icon: FileBarChart, label: 'รายรับแยกประเภท', path: '/finance/revenue-breakdown' },
-    { icon: FileX, label: 'หนี้ค้างชำระ', path: '/finance/outstanding-debt' },
-    { icon: BarChart3, label: 'รายรับ / รายจ่าย', path: '/finance/income-expense' },
-    { icon: LineChart, label: 'รายได้ต่อวัน / สัปดาห์', path: '/finance/daily-weekly' },
-    { icon: Calculator, label: 'กำไรสุทธิ', path: '/finance/net-profit' }
+    { icon: FileX, label: 'หนี้ค้างชำระ', path: '/finance/outstanding-debt' }
   ]
 };
 
