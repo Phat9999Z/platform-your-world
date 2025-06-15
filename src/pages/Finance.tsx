@@ -30,6 +30,10 @@ import CreateTransactionForm from '@/components/finance/CreateTransactionForm';
 // Import new components
 import BurnRunway from '@/components/finance/BurnRunway';
 import OwnerWithdrawal from '@/components/finance/OwnerWithdrawal';
+import LensClaims from '@/components/finance/LensClaims';
+import SalaryPayment from '@/components/finance/SalaryPayment';
+import RevenueBreakdown from '@/components/finance/RevenueBreakdown';
+import OutstandingDebt from '@/components/finance/OutstandingDebt';
 
 const Finance = () => {
   const [showCreateTransaction, setShowCreateTransaction] = useState(false);
@@ -59,10 +63,10 @@ const Finance = () => {
       <Routes>
         <Route path="/burn-runway" element={<BurnRunway />} />
         <Route path="/owner-withdrawal" element={<OwnerWithdrawal />} />
-        <Route path="/lens-claims" element={<div className="text-center p-8"><h2 className="text-xl">เคลมเลนส์ - กำลังพัฒนา</h2></div>} />
-        <Route path="/salary-payment" element={<div className="text-center p-8"><h2 className="text-xl">จ่ายเงินเดือน - กำลังพัฒนา</h2></div>} />
-        <Route path="/revenue-breakdown" element={<div className="text-center p-8"><h2 className="text-xl">รายรับแยกประเภท - กำลังพัฒนา</h2></div>} />
-        <Route path="/outstanding-debt" element={<div className="text-center p-8"><h2 className="text-xl">หนี้ค้างชำระ - กำลังพัฒนา</h2></div>} />
+        <Route path="/lens-claims" element={<LensClaims />} />
+        <Route path="/salary-payment" element={<SalaryPayment />} />
+        <Route path="/revenue-breakdown" element={<RevenueBreakdown />} />
+        <Route path="/outstanding-debt" element={<OutstandingDebt />} />
         <Route path="/income-expense" element={<ExpenseManagementSection />} />
         <Route path="/daily-weekly" element={<SalesRevenueSection />} />
         <Route path="/net-profit" element={<FinancialKPIDashboard />} />
