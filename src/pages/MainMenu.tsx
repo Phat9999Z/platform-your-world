@@ -59,13 +59,13 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 3. รายจ่าย (สลับมาจาก position 7) */}
-            <Link to="/expenses" className="block">
+            {/* 3. Finance (สลับมาจาก position 6) */}
+            <Link to="/finance" className="block">
               <MenuCard 
-                title="รายจ่าย"
-                icon={<MessageSquare size={32} />} 
+                title="Finance"
+                icon={<BarChart size={32} />} 
                 variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
             {/* 4. Inventory (สลับมาจาก position 5) */}
@@ -85,13 +85,13 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 6. Finance (ย้ายมาไว้ข้าง Inventory) */}
-            <Link to="/finance" className="block">
+            {/* 6. รายจ่าย (สลับมาจาก position 3) */}
+            <Link to="/expenses" className="block">
               <MenuCard 
-                title="Finance"
-                icon={<BarChart size={32} />} 
+                title="รายจ่าย"
+                icon={<MessageSquare size={32} />} 
                 variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
             {/* 7. Branch (สลับมาจาก position 3) */}
