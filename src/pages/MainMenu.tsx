@@ -59,30 +59,30 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 3. Branch */}
-            <Link to="/branch" className="block">
+            {/* 3. รายจ่าย (สลับมาจาก position 7) */}
+            <Link to="/expenses" className="block">
               <MenuCard 
-                title="Branch" 
-                icon={<Building size={32} />} 
+                title="รายจ่าย"
+                icon={<MessageSquare size={32} />} 
                 variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 4. รายได้ (ย้ายมาไว้ข้าง Branch) */}
+            {/* 4. Inventory (สลับมาจาก position 5) */}
+            <Link to="/inventory" className="block">
+              <MenuCard 
+                title="Inventory"
+                icon={<Package size={32} />} 
+                variant="secondary" 
+              />
+            </Link>
+            {/* 5. รายได้ (สลับมาจาก position 4) */}
             <Link to="/finance" className="block">
               <MenuCard 
                 title="รายได้" 
                 icon={<DollarSign size={32} />} 
                 variant="primary" 
                 backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
-              />
-            </Link>
-            {/* 5. Inventory */}
-            <Link to="/inventory" className="block">
-              <MenuCard 
-                title="Inventory"
-                icon={<Package size={32} />} 
-                variant="secondary" 
               />
             </Link>
             {/* 6. Finance (ย้ายมาไว้ข้าง Inventory) */}
@@ -94,13 +94,13 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 7. รายจ่าย */}
-            <Link to="/expenses" className="block md:col-span-2">
+            {/* 7. Branch (สลับมาจาก position 3) */}
+            <Link to="/branch" className="block md:col-span-2">
               <MenuCard 
-                title="รายจ่าย"
-                icon={<MessageSquare size={32} />} 
+                title="Branch" 
+                icon={<Building size={32} />} 
                 variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
                 className="h-full"
               />
             </Link>
