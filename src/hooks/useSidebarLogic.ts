@@ -15,6 +15,8 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/staff/invoicing')) return 'invoicing';
     if (path.startsWith('/staff/followup')) return 'followup';
     if (path.startsWith('/staff/chat')) return 'chat';
+    if (path.startsWith('/staff/tasks')) return 'tasks';
+    if (path.startsWith('/staff/product')) return 'product';
     
     // Analytics routes
     if (path.startsWith('/analytics')) return 'analytics';
@@ -58,6 +60,8 @@ export const useSidebarLogic = () => {
     if (path === '/staff/invoicing' && currentPath === '/staff/invoicing') return true;
     if (path === '/staff/followup' && currentPath === '/staff/followup') return true;
     if (path === '/staff/chat' && currentPath === '/staff/chat') return true;
+    if (path === '/staff/tasks' && currentPath === '/staff/tasks') return true;
+    if (path === '/staff/product/inventory' && currentPath === '/staff/product') return true;
     
     // For sub-routes, only match if current path starts with menu path followed by '/'
     if (path !== '/' && currentPath.startsWith(path + '/')) {

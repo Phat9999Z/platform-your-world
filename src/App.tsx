@@ -17,6 +17,8 @@ import StaffTreatments from '@/pages/StaffTreatments';
 import StaffInvoicing from '@/pages/StaffInvoicing';
 import StaffFollowup from '@/pages/StaffFollowup';
 import StaffChat from '@/pages/StaffChat';
+import StaffTasks from '@/pages/StaffTasks';
+import StaffProduct from '@/pages/StaffProduct';
 import NotFound from '@/pages/NotFound';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -176,6 +178,26 @@ function App() {
                   <AppSidebar />
                   <main className="flex-1 overflow-auto">
                     <StaffChat />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/tasks/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffTasks />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/product/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffProduct />
                   </main>
                 </div>
               </SidebarProvider>

@@ -1,3 +1,4 @@
+
 import {
   Eye,
   Sparkles,
@@ -30,7 +31,9 @@ import {
   FileText,
   Phone,
   Settings,
-  Plus
+  Plus,
+  CheckSquare,
+  Warehouse
 } from 'lucide-react';
 
 export interface MenuItem {
@@ -155,6 +158,17 @@ export const staffMenus = {
     { icon: MessageCircle, label: 'LINE / Facebook', path: '/staff/chat/social' },
     { icon: Timer, label: 'ประวัติการแชท', path: '/staff/chat/history' },
     { icon: Settings, label: 'ตั้งค่าแชท', path: '/staff/chat/settings' }
+  ],
+  tasks: [
+    { icon: CheckSquare, label: 'รายการงาน', path: '/staff/tasks' },
+    { icon: Calendar, label: 'ปฏิทินงาน', path: '/staff/tasks/calendar' },
+    { icon: BarChart3, label: 'วิเคราะห์ประสิทธิภาพ', path: '/staff/tasks/analytics' },
+    { icon: Plus, label: 'สร้างงานใหม่', path: '/staff/tasks/create' }
+  ],
+  product: [
+    { icon: Warehouse, label: 'คลังสินค้า', path: '/staff/product/inventory' },
+    { icon: Receipt, label: 'คำสั่งซื้อ', path: '/staff/product/orders' },
+    { icon: Package, label: 'แคตตาล็อก', path: '/staff/product/catalog' }
   ]
 };
 
@@ -164,5 +178,7 @@ export const staffTitles = {
   treatments: 'Treatment Records (บันทึกการรักษา)',
   invoicing: 'Invoice & Payment (ใบเสร็จและการชำระ)',
   followup: 'Customer Follow-up (ติดตามลูกค้า)',
-  chat: 'Chat Support (แชทสนับสนุนลูกค้า)'
+  chat: 'Chat Support (แชทสนับสนุนลูกค้า)',
+  tasks: 'Task Management (จัดการงาน)',
+  product: 'Product Management (จัดการผลิตภัณฑ์)'
 };
