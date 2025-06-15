@@ -6,6 +6,12 @@ import TasksList from '@/components/tasks/TasksList';
 import TasksCalendar from '@/components/tasks/TasksCalendar';
 import TasksAnalytics from '@/components/tasks/TasksAnalytics';
 import TasksCreate from '@/components/tasks/TasksCreate';
+import TasksDaily from '@/components/tasks/TasksDaily';
+import TasksAssigned from '@/components/tasks/TasksAssigned';
+import TasksUpcoming from '@/components/tasks/TasksUpcoming';
+import TasksOverdue from '@/components/tasks/TasksOverdue';
+import TasksPersonalKPI from '@/components/tasks/TasksPersonalKPI';
+import TasksShiftAlerts from '@/components/tasks/TasksShiftAlerts';
 
 const Tasks = () => {
   return (
@@ -18,6 +24,12 @@ const Tasks = () => {
         
         <Routes>
           <Route index element={<TasksDashboard />} />
+          <Route path="daily" element={<TasksDaily />} />
+          <Route path="assigned" element={<TasksAssigned />} />
+          <Route path="upcoming" element={<TasksUpcoming />} />
+          <Route path="overdue" element={<TasksOverdue />} />
+          <Route path="personal-kpi" element={<TasksPersonalKPI />} />
+          <Route path="shift-alerts" element={<TasksShiftAlerts />} />
           <Route path="list" element={<TasksList />} />
           <Route path="calendar" element={<TasksCalendar />} />
           <Route path="analytics" element={<TasksAnalytics />} />

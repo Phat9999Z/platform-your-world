@@ -34,7 +34,22 @@ import {
   Plus,
   CheckSquare,
   Warehouse,
-  Tag
+  Tag,
+  ClipboardList,
+  UserPlus,
+  ClockIcon,
+  AlertTriangleIcon,
+  TrendingUpIcon,
+  Bell,
+  CalendarCheck,
+  UserMinus,
+  Banknote,
+  HandCoins,
+  Coins,
+  CreditCardIcon,
+  FileBarChart,
+  FileX,
+  History
 } from 'lucide-react';
 
 export interface MenuItem {
@@ -57,8 +72,13 @@ export const systemMenus = {
   ],
   tasks: [
     { icon: BarChart3, label: 'ภาพรวมงาน', path: '/tasks' },
+    { icon: Calendar, label: 'งานประจำวัน', path: '/tasks/daily' },
+    { icon: ClipboardList, label: 'งานที่ได้รับมอบหมาย', path: '/tasks/assigned' },
+    { icon: CalendarCheck, label: 'งานล่วงหน้า 7 วัน', path: '/tasks/upcoming' },
+    { icon: AlertTriangle, label: 'Task ลืมทำ', path: '/tasks/overdue' },
+    { icon: Target, label: 'งาน KPI รายคน', path: '/tasks/personal-kpi' },
+    { icon: Bell, label: 'แจ้งเตือนเวรหลุด', path: '/tasks/shift-alerts' },
     { icon: CheckSquare, label: 'รายการงานทั้งหมด', path: '/tasks/list' },
-    { icon: Calendar, label: 'ปฏิทินงาน', path: '/tasks/calendar' },
     { icon: TrendingUp, label: 'วิเคราะห์ประสิทธิภาพ', path: '/tasks/analytics' },
     { icon: Plus, label: 'สร้างงานใหม่', path: '/tasks/create' }
   ],
@@ -94,9 +114,14 @@ export const systemMenus = {
   ],
   hr: [
     { icon: Users, label: 'พนักงาน & องค์กร', path: '/hr-dashboard' },
-    { icon: UserCheck, label: 'จำนวนพนักงานทั้งหมด', path: '/hr-dashboard/staff-count' },
-    { icon: TrendingUp, label: 'Turnover Rate', path: '/hr-dashboard/turnover' },
+    { icon: UserCheck, label: 'รายชื่อพนักงานทั้งหมด', path: '/hr-dashboard/all-staff' },
+    { icon: Calendar, label: 'เวรพนักงาน', path: '/hr-dashboard/staff-shifts' },
+    { icon: UserMinus, label: 'ลา / ขาด / OT', path: '/hr-dashboard/leave-attendance' },
+    { icon: Target, label: 'Performance ต่อคน', path: '/hr-dashboard/individual-performance' },
+    { icon: History, label: 'ประวัติพนักงาน', path: '/hr-dashboard/staff-history' },
     { icon: DollarSign, label: 'Payroll Load', path: '/hr-dashboard/payroll' },
+    { icon: CheckSquare, label: 'อนุมัติเงินเดือน', path: '/hr-dashboard/salary-approval' },
+    { icon: TrendingUp, label: 'Turnover Rate', path: '/hr-dashboard/turnover' },
     { icon: Calculator, label: 'Revenue per Staff', path: '/hr-dashboard/revenue-per-staff' },
     { icon: Star, label: 'Performance สูงสุด', path: '/hr-dashboard/top-performance' }
   ],
@@ -124,11 +149,15 @@ export const systemMenus = {
   ],
   finance: [
     { icon: DollarSign, label: 'ภาพรวมการเงิน', path: '/finance' },
+    { icon: Activity, label: 'Burn Rate / Runway', path: '/finance/burn-runway' },
+    { icon: HandCoins, label: 'Owner Withdrawal', path: '/finance/owner-withdrawal' },
+    { icon: Eye, label: 'เคลมเลนส์', path: '/finance/lens-claims' },
+    { icon: Banknote, label: 'จ่ายเงินเดือน', path: '/finance/salary-payment' },
+    { icon: FileBarChart, label: 'รายรับแยกประเภท', path: '/finance/revenue-breakdown' },
+    { icon: FileX, label: 'หนี้ค้างชำระ', path: '/finance/outstanding-debt' },
     { icon: BarChart3, label: 'รายรับ / รายจ่าย', path: '/finance/income-expense' },
     { icon: LineChart, label: 'รายได้ต่อวัน / สัปดาห์', path: '/finance/daily-weekly' },
-    { icon: Calculator, label: 'กำไรสุทธิ', path: '/finance/net-profit' },
-    { icon: Activity, label: 'Burn Rate & Runway', path: '/finance/burn-runway' },
-    { icon: Briefcase, label: 'Owner Withdrawal Report', path: '/finance/owner-withdrawal' }
+    { icon: Calculator, label: 'กำไรสุทธิ', path: '/finance/net-profit' }
   ]
 };
 
