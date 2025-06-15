@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { BarChart3, TrendingUp, TrendingDown, Target, Calendar } from 'lucide-react';
 
 const TotalRevenue = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('month');
+  const [selectedPeriod, setSelectedPeriod] = useState('monthly');
 
   const revenueData = {
     daily: {
@@ -69,8 +69,8 @@ const TotalRevenue = () => {
             รายวัน
           </Button>
           <Button 
-            variant={selectedPeriod === 'month' ? 'default' : 'outline'}
-            onClick={() => setSelectedPeriod('month')}
+            variant={selectedPeriod === 'monthly' ? 'default' : 'outline'}
+            onClick={() => setSelectedPeriod('monthly')}
           >
             รายเดือน
           </Button>
@@ -203,6 +203,28 @@ const TotalRevenue = () => {
       </Card>
     </div>
   );
+};
+
+const monthlyBreakdown = [
+  { month: 'ม.ค.', revenue: 720000, target: 800000, achieved: 90 },
+  { month: 'ก.พ.', revenue: 780000, target: 800000, achieved: 97.5 },
+  { month: 'มี.ค.', revenue: 850000, target: 850000, achieved: 100 },
+  { month: 'เม.ย.', revenue: 920000, target: 900000, achieved: 102.2 },
+  { month: 'พ.ค.', revenue: 780000, target: 950000, achieved: 82.1 },
+  { month: 'มิ.ย.', revenue: 950000, target: 1000000, achieved: 95 }
+];
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('th-TH', {
+    style: 'currency',
+    currency: 'THB'
+  }).format(amount);
+};
+
+const getAchievementColor = (percentage: number) => {
+  if (percentage >= 100) return 'text-green-600 bg-green-100';
+  if (percentage >= 80) return 'text-yellow-600 bg-yellow-100';
+  return 'text-red-600 bg-red-100';
 };
 
 export default TotalRevenue;
