@@ -1,14 +1,12 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Calendar, Users, Building, MessageSquare, DollarSign, Bell, BarChart } from "lucide-react";
+import { LogOut, Calendar, Users, Building, MessageSquare, DollarSign, Bell, BarChart, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/Logo";
 import MenuCard from "@/components/MenuCard";
 import ChatSupport from "@/components/ChatSupport";
 import { useAuth } from "@/contexts/AuthContext";
-// เพิ่ม Inventory icon
-import { inventory } from "lucide-react";
 
 const MainMenu = () => {
   const { toast } = useToast();
@@ -43,7 +41,7 @@ const MainMenu = () => {
         <div className="w-full max-w-4xl">
           {/* Menu Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            {/* 1. Task (แทน Appointment), path ใหม่แนะนำให้ใช้ /tasks */}
+            {/* 1. Task (แทน Appointment) */}
             <Link to="/tasks" className="block">
               <MenuCard 
                 title="Task"
@@ -61,24 +59,7 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 3. Finance (รายได้) - สลับมาก่อน Branch */}
-            <Link to="/finance" className="block">
-              <MenuCard 
-                title="รายได้" 
-                icon={<DollarSign size={32} />} 
-                variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
-              />
-            </Link>
-            {/* 4. Inventory แทน Feedback */}
-            <Link to="/inventory" className="block">
-              <MenuCard 
-                title="Inventory"
-                icon={<inventory size={32} />} 
-                variant="secondary" 
-              />
-            </Link>
-            {/* 5. Branch (ถูกย้ายถัดจาก Finance) */}
+            {/* 3. Branch */}
             <Link to="/branch" className="block">
               <MenuCard 
                 title="Branch" 
@@ -87,22 +68,39 @@ const MainMenu = () => {
                 backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-            {/* 6. รายจ่าย (เปลี่ยนจาก ChatSystem), path: /expenses */}
-            <Link to="/expenses" className="block">
+            {/* 4. รายได้ (ย้ายมาไว้ข้าง Branch) */}
+            <Link to="/finance" className="block">
+              <MenuCard 
+                title="รายได้" 
+                icon={<DollarSign size={32} />} 
+                variant="primary" 
+                backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
+              />
+            </Link>
+            {/* 5. Inventory */}
+            <Link to="/inventory" className="block">
+              <MenuCard 
+                title="Inventory"
+                icon={<Package size={32} />} 
+                variant="secondary" 
+              />
+            </Link>
+            {/* 6. Finance (ย้ายมาไว้ข้าง Inventory) */}
+            <Link to="/finance" className="block">
+              <MenuCard 
+                title="Finance"
+                icon={<BarChart size={32} />} 
+                variant="primary" 
+                backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
+              />
+            </Link>
+            {/* 7. รายจ่าย */}
+            <Link to="/expenses" className="block md:col-span-2">
               <MenuCard 
                 title="รายจ่าย"
                 icon={<MessageSquare size={32} />} 
                 variant="primary" 
                 backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
-              />
-            </Link>
-            {/* 7. Dashboard (เหมือนเดิม) */}
-            <Link to="/dashboard" className="block md:col-span-2">
-              <MenuCard 
-                title="Dashboard" 
-                icon={<BarChart size={32} />} 
-                variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
                 className="h-full"
               />
             </Link>
@@ -145,4 +143,3 @@ const MainMenu = () => {
 };
 
 export default MainMenu;
-
