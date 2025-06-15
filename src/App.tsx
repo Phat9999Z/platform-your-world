@@ -19,6 +19,10 @@ import StaffFollowup from '@/pages/StaffFollowup';
 import StaffChat from '@/pages/StaffChat';
 import StaffTasks from '@/pages/StaffTasks';
 import StaffProduct from '@/pages/StaffProduct';
+import StaffClaim from '@/pages/StaffClaim';
+import Tasks from '@/pages/Tasks';
+import Expenses from '@/pages/Expenses';
+import Inventory from '@/pages/Inventory';
 import NotFound from '@/pages/NotFound';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -121,6 +125,38 @@ function App() {
               </SidebarProvider>
             } />
             
+            {/* New Routes for Tasks, Expenses, Inventory */}
+            <Route path="/tasks/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Tasks />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/expenses/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Expenses />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/inventory/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <Inventory />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            
             {/* Staff Routes with Sidebar */}
             <Route path="/staff/patients/*" element={
               <SidebarProvider>
@@ -198,6 +234,16 @@ function App() {
                   <AppSidebar />
                   <main className="flex-1 overflow-auto">
                     <StaffProduct />
+                  </main>
+                </div>
+              </SidebarProvider>
+            } />
+            <Route path="/staff/claim/*" element={
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full">
+                  <AppSidebar />
+                  <main className="flex-1 overflow-auto">
+                    <StaffClaim />
                   </main>
                 </div>
               </SidebarProvider>

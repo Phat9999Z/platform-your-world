@@ -54,6 +54,27 @@ export const systemMenus = {
     { icon: LineChart, label: 'อัตราการเติบโต', path: '/dashboard/growth-rate' },
     { icon: Target, label: 'KPI องค์กร', path: '/dashboard/kpi' }
   ],
+  tasks: [
+    { icon: BarChart3, label: 'ภาพรวมงาน', path: '/tasks' },
+    { icon: CheckSquare, label: 'รายการงานทั้งหมด', path: '/tasks/list' },
+    { icon: Calendar, label: 'ปฏิทินงาน', path: '/tasks/calendar' },
+    { icon: TrendingUp, label: 'วิเคราะห์ประสิทธิภาพ', path: '/tasks/analytics' },
+    { icon: Plus, label: 'สร้างงานใหม่', path: '/tasks/create' }
+  ],
+  expenses: [
+    { icon: BarChart3, label: 'ภาพรวมรายจ่าย', path: '/expenses' },
+    { icon: Receipt, label: 'รายการค่าใช้จ่าย', path: '/expenses/list' },
+    { icon: Plus, label: 'บันทึกรายจ่าย', path: '/expenses/create' },
+    { icon: TrendingUp, label: 'วิเคราะห์การใช้จ่าย', path: '/expenses/analytics' },
+    { icon: Tag, label: 'จัดการหมวดหมู่', path: '/expenses/categories' }
+  ],
+  inventory: [
+    { icon: BarChart3, label: 'ภาพรวมสต็อก', path: '/inventory' },
+    { icon: Package, label: 'รายการสินค้า', path: '/inventory/products' },
+    { icon: TrendingUp, label: 'การเคลื่อนไหวสต็อก', path: '/inventory/movements' },
+    { icon: AlertTriangle, label: 'แจ้งเตือนสต็อกต่ำ', path: '/inventory/alerts' },
+    { icon: FileText, label: 'รายงานสต็อก', path: '/inventory/reports' }
+  ],
   analytics: [
     { icon: BarChart3, label: 'Analytics Overview', path: '/analytics' },
     { icon: Users, label: 'Customer Analytics', path: '/analytics/customers' },
@@ -112,6 +133,9 @@ export const systemMenus = {
 
 export const systemTitles = {
   dashboard: 'Dashboard (Executive Overview)',
+  tasks: 'Task Management (จัดการงานองค์กร)',
+  expenses: 'Expenses (จัดการรายจ่าย)',
+  inventory: 'Inventory (จัดการสต็อก)',
   analytics: 'Advanced Analytics (AI-Powered Insights)',
   appointment: 'Appointment (Performance Monitoring)',
   hr: 'HR / OD (องค์กรและพนักงาน)',
@@ -169,6 +193,12 @@ export const staffMenus = {
     { icon: Warehouse, label: 'คลังสินค้า', path: '/staff/product/inventory' },
     { icon: Receipt, label: 'คำสั่งซื้อ', path: '/staff/product/orders' },
     { icon: Package, label: 'แคตตาล็อก', path: '/staff/product/catalog' }
+  ],
+  claim: [
+    { icon: FileText, label: 'ภาพรวมเคลม', path: '/staff/claim' },
+    { icon: Plus, label: 'สร้างเคลมใหม่', path: '/staff/claim/create' },
+    { icon: Clock, label: 'ประวัติเคลม', path: '/staff/claim/history' },
+    { icon: Eye, label: 'ติดตามสถานะ', path: '/staff/claim/tracking' }
   ]
 };
 
@@ -180,5 +210,6 @@ export const staffTitles = {
   followup: 'Customer Follow-up (ติดตามลูกค้า)',
   chat: 'Chat Support (แชทสนับสนุนลูกค้า)',
   tasks: 'Task Management (จัดการงาน)',
-  product: 'Product Management (จัดการผลิตภัณฑ์)'
+  product: 'Product Management (จัดการผลิตภัณฑ์)',
+  claim: 'Claim Management (ระบบเคลม)'
 };

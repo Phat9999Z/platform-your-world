@@ -17,6 +17,12 @@ export const useSidebarLogic = () => {
     if (path.startsWith('/staff/chat')) return 'chat';
     if (path.startsWith('/staff/tasks')) return 'tasks';
     if (path.startsWith('/staff/product')) return 'product';
+    if (path.startsWith('/staff/claim')) return 'claim';
+    
+    // Executive/Admin mode detection
+    if (path.startsWith('/tasks')) return 'tasks';
+    if (path.startsWith('/expenses')) return 'expenses';
+    if (path.startsWith('/inventory')) return 'inventory';
     
     // Analytics routes
     if (path.startsWith('/analytics')) return 'analytics';
@@ -54,6 +60,9 @@ export const useSidebarLogic = () => {
     
     // Handle special cases for base routes
     if (path === '/dashboard' && (currentPath === '/dashboard' || currentPath === '/')) return true;
+    if (path === '/tasks' && currentPath === '/tasks') return true;
+    if (path === '/expenses' && currentPath === '/expenses') return true;
+    if (path === '/inventory' && currentPath === '/inventory') return true;
     if (path === '/staff/patients' && currentPath === '/staff/patients') return true;
     if (path === '/staff/appointments' && currentPath === '/staff/appointments') return true;
     if (path === '/staff/treatments' && currentPath === '/staff/treatments') return true;
@@ -62,6 +71,7 @@ export const useSidebarLogic = () => {
     if (path === '/staff/chat' && currentPath === '/staff/chat') return true;
     if (path === '/staff/tasks' && currentPath === '/staff/tasks') return true;
     if (path === '/staff/product/inventory' && currentPath === '/staff/product') return true;
+    if (path === '/staff/claim' && currentPath === '/staff/claim') return true;
     
     // For sub-routes, only match if current path starts with menu path followed by '/'
     if (path !== '/' && currentPath.startsWith(path + '/')) {
