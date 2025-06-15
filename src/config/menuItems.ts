@@ -33,7 +33,8 @@ import {
   Settings,
   Plus,
   CheckSquare,
-  Warehouse
+  Warehouse,
+  Tag
 } from 'lucide-react';
 
 export interface MenuItem {
