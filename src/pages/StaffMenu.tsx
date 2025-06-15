@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Calendar, Users, FileText, MessageSquare, DollarSign, UserCheck } from "lucide-react";
+import { LogOut, Calendar, Users, FileText, MessageSquare, DollarSign, UserCheck, Package, Receipt } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/Logo";
 import MenuCard from "@/components/MenuCard";
@@ -38,90 +38,72 @@ const StaffMenu = () => {
 
       {/* Main Content */}
       <main className="flex-grow flex items-start justify-center px-6 pb-10">
-        <div className="w-full max-w-3xl">
-          {/* Menu Grid - Optimized for Staff */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            
-            {/* Patient Management */}
-            <Link to="/staff/patients" className="block">
+        <div className="w-full max-w-4xl">
+          {/* Menu Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 1. Task */}
+            <Link to="/staff/tasks" className="block">
               <MenuCard 
-                title="Patient Management" 
-                subtitle="ข้อมูลผู้ป่วย"
-                icon={<Users size={32} />} 
-                variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=400&q=80"
-              />
-            </Link>
-
-            {/* Appointment Booking */}
-            <Link to="/staff/appointments" className="block">
-              <MenuCard 
-                title="Appointment" 
-                subtitle="จองคิว / ดูตารางนัด"
+                title="Task"
                 icon={<Calendar size={32} />} 
                 variant="primary" 
                 backgroundImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-
-            {/* Treatment Records */}
-            <Link to="/staff/treatments" className="block">
+            {/* 2. Appointment */}
+            <Link to="/staff/appointments" className="block">
               <MenuCard 
-                title="Treatment" 
-                subtitle="บันทึกการรักษา"
+                title="Appointment" 
+                icon={<UserCheck size={32} />} 
+                variant="primary" 
+                backgroundImage="https://images.unsplash.com/photo-1573497161079-f3fd25cc6b90?auto=format&fit=crop&w=400&q=80"
+              />
+            </Link>
+            {/* 3. Claim */}
+            <Link to="/staff/claim" className="block">
+              <MenuCard 
+                title="Claim"
                 icon={<FileText size={32} />} 
                 variant="primary" 
-                backgroundImage="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=400&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-
-            {/* Invoice & Payment */}
+            {/* 4. Product */}
+            <Link to="/staff/product" className="block">
+              <MenuCard 
+                title="Product"
+                icon={<Package size={32} />} 
+                variant="secondary" 
+              />
+            </Link>
+            {/* 5. Bill */}
             <Link to="/staff/invoicing" className="block">
               <MenuCard 
-                title="Invoice & Payment" 
-                subtitle="ออกใบเสร็จ / รับชำระ"
+                title="Bill" 
                 icon={<DollarSign size={32} />} 
-                variant="secondary" 
+                variant="primary" 
+                backgroundImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-
-            {/* Customer Follow-up */}
-            <Link to="/staff/followup" className="block">
-              <MenuCard 
-                title="Customer Follow-up" 
-                subtitle="ติดตามลูกค้า"
-                icon={<UserCheck size={32} />} 
-                variant="secondary" 
-              />
-            </Link>
-
-            {/* Chat Support */}
+            {/* 6. Chat Support */}
             <Link to="/staff/chat" className="block">
               <MenuCard 
-                title="Chat Support" 
-                subtitle="ตอบแชทลูกค้า"
+                title="Chat Support"
                 icon={<MessageSquare size={32} />} 
                 variant="primary" 
                 backgroundImage="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&w=400&q=80"
               />
             </Link>
-
-          </div>
-          
-          {/* Quick Stats for Staff */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-teal-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-teal-700">12</div>
-              <div className="text-sm text-teal-600">นัดวันนี้</div>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-700">3</div>
-              <div className="text-sm text-blue-600">รอการรักษา</div>
-            </div>
-            <div className="bg-green-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-700">5</div>
-              <div className="text-sm text-green-600">รอติดตาม</div>
-            </div>
+            {/* 7. Patient Management (spans 2 columns like Branch in main menu) */}
+            <Link to="/staff/patients" className="block md:col-span-2">
+              <MenuCard 
+                title="Patient Management" 
+                icon={<Users size={32} />} 
+                variant="primary" 
+                backgroundImage="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=400&q=80"
+                className="h-full"
+              />
+            </Link>
           </div>
           
           {/* Logout Button */}
@@ -136,6 +118,18 @@ const StaffMenu = () => {
           </div>
         </div>
       </main>
+
+      {/* Chat Support Button */}
+      <div className="fixed bottom-6 right-6">
+        <button
+          onClick={() => setIsChatOpen(true)}
+          className="flex items-center justify-center bg-teal-700 text-white p-4 rounded-full shadow-lg hover:bg-teal-600 transition-colors"
+          aria-label="Chat Support"
+        >
+          <span className="mr-2 hidden sm:inline">Chat Support</span>
+          <MessageSquare size={24} />
+        </button>
+      </div>
 
       {/* Chat Support Dialog */}
       {isChatOpen && <ChatSupport onClose={() => setIsChatOpen(false)} />}
