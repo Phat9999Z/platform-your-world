@@ -8,6 +8,8 @@ import ExpensesAnalytics from '@/components/expenses/ExpensesAnalytics';
 import ExpensesCategories from '@/components/expenses/ExpensesCategories';
 import MonthlyExpenses from '@/components/expenses/MonthlyExpenses';
 import SalaryPayment from '@/components/finance/SalaryPayment';
+import RecurringExpenses from '@/components/expenses/RecurringExpenses';
+import VendorPayments from '@/components/expenses/VendorPayments';
 
 const Expenses = () => {
   return (
@@ -22,8 +24,8 @@ const Expenses = () => {
           <Route index element={<ExpensesDashboard />} />
           <Route path="monthly" element={<MonthlyExpenses />} />
           <Route path="payroll" element={<SalaryPayment />} />
-          <Route path="recurring" element={<div>Coming Soon: รายจ่าย recurring</div>} />
-          <Route path="vendors" element={<div>Coming Soon: จ่าย vendor ไหน</div>} />
+          <Route path="recurring" element={<RecurringExpenses />} />
+          <Route path="vendors" element={<VendorPayments />} />
           <Route path="pending-claims" element={<div>Coming Soon: เคลมที่ยังไม่ได้คืนเงิน</div>} />
           <Route path="anomalies" element={<div>Coming Soon: รายจ่ายผิดปกติ</div>} />
           <Route path="comparison" element={<div>Coming Soon: รายจ่ายเปรียบเทียบ</div>} />
